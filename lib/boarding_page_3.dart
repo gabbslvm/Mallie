@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'BoardingPage2.dart';
-import 'BoardingPage3.dart';
-import 'PreferencesPage.dart';
+import 'boarding_page_1.dart';
+import 'boarding_page_2.dart';
+import 'preferences_page.dart';
 
-class BoardingPage1 extends StatelessWidget {
-  const BoardingPage1({super.key});
+class BoardingPage3 extends StatelessWidget {
+  const BoardingPage3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class BoardingPage1 extends StatelessWidget {
                 
                 // Title
                 Text(
-                  'Find stores easily!',
+                  'Make it an adventure',
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class BoardingPage1 extends StatelessWidget {
                 
                 // Description
                 Text(
-                  'Use Mallie to find any\nstores in seconds.',
+                  'Turn your mall visits into\na quest.',
                   style: TextStyle(
                     fontSize: 24,
                     color: Color(0xFF2b4c6f),
@@ -107,8 +107,8 @@ class BoardingPage1 extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BoardingPage2()),
+                    context,
+                      MaterialPageRoute(builder: (context) => PreferencesPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -130,21 +130,30 @@ class BoardingPage1 extends StatelessWidget {
                 
                 SizedBox(height: 30),
                 
-                // Page indicators
-                Row(
+                  // Page indicators (third dot active)
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Page 1 - Active (current page)
+                    // Page 1
                     GestureDetector(
                       onTap: () {
-                        // Already on this page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BoardingPage1(),
+                          ),
+                        );
                       },
                       child: Container(
                         width: 15,
                         height: 15,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Color(0xFF2b4c6f),
+                          border: Border.all(
+                            color: Color(0xFF2b4c6f),
+                            width: 2,
+                          ),
+                          color: Colors.transparent,
                         ),
                       ),
                     ),
@@ -173,26 +182,17 @@ class BoardingPage1 extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 15),
-                    // Page 3
+                    // Page 3 - Active (current page)
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BoardingPage3(),
-                          ),
-                        );
+                        // Already on this page
                       },
                       child: Container(
                         width: 15,
                         height: 15,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Color(0xFF2b4c6f),
-                            width: 2,
-                          ),
-                          color: Colors.transparent,
+                          color: Color(0xFF2b4c6f),
                         ),
                       ),
                     ),

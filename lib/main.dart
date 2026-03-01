@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'BoardingPage1.dart';
+import 'boarding_page_1.dart';
 
 void main() {
   runApp(MallieApp());

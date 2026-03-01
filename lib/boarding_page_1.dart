@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'BoardingPage1.dart';
-import 'BoardingPage3.dart';
-import 'PreferencesPage.dart';
+import 'boarding_page_2.dart';
+import 'boarding_page_3.dart';
+import 'preferences_page.dart';
 
-class BoardingPage2 extends StatelessWidget {
-  const BoardingPage2({super.key});
+class BoardingPage1 extends StatelessWidget {
+  const BoardingPage1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class BoardingPage2 extends StatelessWidget {
                 
                 // Title
                 Text(
-                  'Discover by Category',
+                  'Find stores easily!',
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class BoardingPage2 extends StatelessWidget {
                 
                 // Description
                 Text(
-                  'Browse shops by your\npreference',
+                  'Use Mallie to find any\nstores in seconds.',
                   style: TextStyle(
                     fontSize: 24,
                     color: Color(0xFF2b4c6f),
@@ -108,7 +108,7 @@ class BoardingPage2 extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BoardingPage3()),
+                      MaterialPageRoute(builder: (context) => BoardingPage2()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -130,17 +130,32 @@ class BoardingPage2 extends StatelessWidget {
                 
                 SizedBox(height: 30),
                 
-                  // Page indicators
-                  Row(
+                // Page indicators
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Page 1
+                    // Page 1 - Active (current page)
+                    GestureDetector(
+                      onTap: () {
+                        // Already on this page
+                      },
+                      child: Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF2b4c6f),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    // Page 2
                     GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BoardingPage1(),
+                            builder: (context) => BoardingPage2(),
                           ),
                         );
                       },
@@ -154,21 +169,6 @@ class BoardingPage2 extends StatelessWidget {
                             width: 2,
                           ),
                           color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    // Page 2 - Active (current page)
-                    GestureDetector(
-                      onTap: () {
-                        // Already on this page
-                      },
-                      child: Container(
-                        width: 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFF2b4c6f),
                         ),
                       ),
                     ),

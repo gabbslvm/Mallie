@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'BoardingPage1.dart';
-import 'BoardingPage2.dart';
-import 'PreferencesPage.dart';
+import 'boarding_page_1.dart';
+import 'boarding_page_3.dart';
+import 'preferences_page.dart';
 
-class BoardingPage3 extends StatelessWidget {
-  const BoardingPage3({super.key});
+class BoardingPage2 extends StatelessWidget {
+  const BoardingPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class BoardingPage3 extends StatelessWidget {
                 
                 // Title
                 Text(
-                  'Make it an adventure',
+                  'Discover by Category',
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class BoardingPage3 extends StatelessWidget {
                 
                 // Description
                 Text(
-                  'Turn your mall visits into\na quest.',
+                  'Browse shops by your\npreference',
                   style: TextStyle(
                     fontSize: 24,
                     color: Color(0xFF2b4c6f),
@@ -107,8 +107,8 @@ class BoardingPage3 extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                    context,
-                      MaterialPageRoute(builder: (context) => PreferencesPage()),
+                      context,
+                      MaterialPageRoute(builder: (context) => BoardingPage3()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -130,7 +130,7 @@ class BoardingPage3 extends StatelessWidget {
                 
                 SizedBox(height: 30),
                 
-                  // Page indicators (third dot active)
+                  // Page indicators
                   Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -158,13 +158,28 @@ class BoardingPage3 extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 15),
-                    // Page 2
+                    // Page 2 - Active (current page)
+                    GestureDetector(
+                      onTap: () {
+                        // Already on this page
+                      },
+                      child: Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFF2b4c6f),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    // Page 3
                     GestureDetector(
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BoardingPage2(),
+                            builder: (context) => BoardingPage3(),
                           ),
                         );
                       },
@@ -178,21 +193,6 @@ class BoardingPage3 extends StatelessWidget {
                             width: 2,
                           ),
                           color: Colors.transparent,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    // Page 3 - Active (current page)
-                    GestureDetector(
-                      onTap: () {
-                        // Already on this page
-                      },
-                      child: Container(
-                        width: 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xFF2b4c6f),
                         ),
                       ),
                     ),
