@@ -34,11 +34,11 @@ class _PreferencesPageState extends State<PreferencesPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFFa8d2e6),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Color(0xFF165CA1), size: 28),
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF165CA1), size: 28),
           onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+            Navigator.of(context).pop(); // This "pops" the Preference page and shows Onboarding again
+            },
+          ),
         title: Text(
           'Preferences',
           style: TextStyle(
@@ -182,10 +182,12 @@ class _PreferencesPageState extends State<PreferencesPage> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        // Skip without saving preferences
-                        // Navigate to your next screen here
-                        // Example: Navigator.pushReplacementNamed(context, '/home');
-                        print('Skipped preferences');
+                        // TODO: Uncomment when home screen is ready
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => YourHomeScreen()),
+                        // );
+                        Text('Skipped preferences');
                       },
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 18),
@@ -210,9 +212,14 @@ class _PreferencesPageState extends State<PreferencesPage> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        // Print selected items
-                        print('Selected: $selectedItems');
-                        // Navigate to next screen here
+                        Text('Selected: $selectedItems');
+                        // Optionally save selectedItems here
+                        
+                        // TODO: Uncomment when home screen is ready
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => YourHomeScreen()),
+                        // );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF165CA1),

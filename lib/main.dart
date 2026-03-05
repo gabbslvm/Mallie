@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
-import 'boarding_page_1.dart';
+import 'package:flutter/services.dart';
+import 'mallie_splash_screen.dart';
 
 void main() {
-  runApp(MallieApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Set status bar color
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+  
+  runApp(const MallieApp());
 }
 
 class MallieApp extends StatelessWidget {
@@ -11,19 +22,37 @@ class MallieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),  // Changed this line
+      title: 'Mallie',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: const Color(0xFF4A90E2),
+        fontFamily: 'Poppins', // Optional: Add custom font
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF4A90E2),
+          primary: const Color(0xFF4A90E2),
+        ),
+        useMaterial3: true,
+      ),
+      home: const MallieSplashScreen(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+// Example home screen (replace with your actual home screen)
+class MallieHomeScreen extends StatelessWidget {
+  const MallieHomeScreen({super. key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mallie Home'),
+        backgroundColor: const Color(0xFF4A90E2),
+        foregroundColor: Colors.white,
+      ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -34,37 +63,30 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/mallie2.png',
-                width: 400,
-                height: 600,
+              Icon(
+                Icons.store,
+                size: 80,
+                color: Color(0xFF4A90E2),
               ),
-              SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BoardingPage1()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFf0b552),
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+              SizedBox(height: 20),
+              Text(
+                'Welcome to Mallie!',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E5F8C),
                 ),
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2b4c6f),
-                  ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Your friendly mall guide',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color(0xFF4A90E2),
                 ),
               ),
             ],
