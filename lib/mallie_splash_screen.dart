@@ -39,7 +39,6 @@ class _MallieSplashScreenState extends State<MallieSplashScreen>
 
     _controller.forward();
 
-    // Navigate to onboarding screen after delay
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -103,7 +102,6 @@ class _MallieSplashScreenState extends State<MallieSplashScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo Image
                 Image.asset(
                   'assets/mallie2.png',
                   width: MediaQuery.of(context).size.width * 0.7,
@@ -111,7 +109,6 @@ class _MallieSplashScreenState extends State<MallieSplashScreen>
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 20),
-                // Optional: Add a loading indicator
                 const SizedBox(
                   width: 40,
                   height: 40,

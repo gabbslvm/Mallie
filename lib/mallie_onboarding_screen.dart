@@ -13,7 +13,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
   final PageController _pageController = PageController();
   int _currentPage = 0;
   
-  // Track scroll position for Parallax effect
   double _scrollOffset = 0.0;
 
   late AnimationController _animationController;
@@ -44,7 +43,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
   void initState() {
     super.initState();
     
-    // Listen to scroll changes for smooth parallax
     _pageController.addListener(() {
       setState(() {
         _scrollOffset = _pageController.page ?? 0.0;
@@ -90,7 +88,7 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
       _pageController.animateToPage(
         _currentPage + 1,
         duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOutQuart, // Smoother curve for page switching
+        curve: Curves.easeOutQuart,
       );
     } else {
       _navigateToHome();
@@ -191,7 +189,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
   }
 
   Widget _buildPage(OnboardingData data, int index) {
-    // Parallax logic: Calculate relative position
     double relativePosition = index - _scrollOffset;
 
     return FadeTransition(
@@ -201,7 +198,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Slide title slightly differently for depth
             Transform.translate(
               offset: Offset(relativePosition * 20, 0),
               child: Text(
@@ -211,9 +207,8 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
               ),
             ),
             const SizedBox(height: 40),
-            // Image Container with Parallax
             Transform.translate(
-              offset: Offset(relativePosition * 80, 0), // Moves faster for Parallax depth
+              offset: Offset(relativePosition * 80, 0),
               child: Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 0.35,
@@ -232,7 +227,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
               ),
             ),
             const SizedBox(height: 40),
-            // Description
             SlideTransition(
               position: _slideAnimation,
               child: Text(
@@ -257,12 +251,10 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             margin: const EdgeInsets.symmetric(horizontal: 6),
-            // Modern Dot Logic: Active dot is wider (pill shape)
             width: _currentPage == index ? 24 : 10,
             height: 10,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              // Fixed opacity using modern withValues syntax
               color: _currentPage == index
                   ? const Color(0xFF4A90E2)
                   : const Color(0xFF4A90E2).withValues(alpha: 0.3),

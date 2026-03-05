@@ -8,10 +8,8 @@ class PreferencesPage extends StatefulWidget {
 }
 
 class _PreferencesPageState extends State<PreferencesPage> {
-  // Simple list to track what's selected
   List<String> selectedItems = [];
 
-  // Function to add or remove an item when tapped
   void onItemTapped(String item) {
     setState(() {
       if (selectedItems.contains(item)) {
@@ -22,7 +20,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
     });
   }
 
-  // Function to check if an item is selected
   bool isSelected(String item) {
     return selectedItems.contains(item);
   }
@@ -36,7 +33,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF165CA1), size: 28),
           onPressed: () {
-            Navigator.of(context).pop(); // This "pops" the Preference page and shows Onboarding again
+            Navigator.of(context).pop();
             },
           ),
         title: Text(
@@ -72,7 +69,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
         ),
         child: Column(
           children: [
-            // Scrollable content area
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(20),
@@ -81,7 +77,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                   children: [
                     SizedBox(height: 10),
                     
-                    // Main question
                     Text(
                       'What do you usually shop for?',
                       style: TextStyle(
@@ -92,7 +87,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     ),
                     SizedBox(height: 30),
 
-                    // TRENDING SECTION
                     Text(
                       'Trending',
                       style: TextStyle(
@@ -118,7 +112,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     ),
                     SizedBox(height: 25),
 
-                    // FOOD & LIFESTYLE SECTION
                     Text(
                       'Food & Lifestyle',
                       style: TextStyle(
@@ -143,7 +136,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     ),
                     SizedBox(height: 25),
 
-                    // PERSONAL SECTION
                     Text(
                       'Personal',
                       style: TextStyle(
@@ -172,7 +164,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
               ),
             ),
 
-            // Bottom buttons
             Container(
               margin: EdgeInsets.only(bottom: 30),
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
@@ -213,8 +204,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         Text('Selected: $selectedItems');
-                        // Optionally save selectedItems here
-                        
                         // TODO: Uncomment when home screen is ready
                         // Navigator.pushReplacement(
                         //   context,
@@ -248,7 +237,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
     );
   }
 
-  // Simple function to build each clickable chip
   Widget buildChip(String label) {
     bool selected = isSelected(label);
     

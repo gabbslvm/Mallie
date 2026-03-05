@@ -26,7 +26,7 @@ class MallieApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: const Color(0xFF4A90E2),
-        fontFamily: 'Poppins', // Optional: Add custom font
+        fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF4A90E2),
@@ -39,7 +39,7 @@ class MallieApp extends StatelessWidget {
   }
 }
 
-// Example home screen (replace with your actual home screen)
+//home screen (for homescreen)
 class MallieHomeScreen extends StatelessWidget {
   const MallieHomeScreen({super. key});
 
