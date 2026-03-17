@@ -221,7 +221,7 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
                 ),
                 child: Center(
                   child: data.isLogoPage
-                      ? Image.asset('assets/mallie2.png', fit: BoxFit.contain)
+                      ? Image.asset('assets/mallieLogo.png', fit: BoxFit.contain)
                       : const Icon(Icons.image, size: 100, color: Colors.white24),
                 ),
               ),

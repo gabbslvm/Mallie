@@ -103,7 +103,7 @@ class _MallieSplashScreenState extends State<MallieSplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/mallie2.png',
+                  'assets/mallieLogo.png',
                   width: MediaQuery.of(context).size.width * 0.7,
                   height: MediaQuery.of(context).size.width * 0.7,
                   fit: BoxFit.contain,
