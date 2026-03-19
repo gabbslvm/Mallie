@@ -28,14 +28,17 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
     OnboardingData(
       title: 'Find stores easily!',
       description: 'Use Mallie to find any\nstores in seconds.',
+      imagePath: 'assets/mallieOnboarding1.png',
     ),
     OnboardingData(
       title: 'Discover by Category',
       description: 'Browse shops by your\npreference.',
+      imagePath: 'assets/mallieOnboarding2.png',
     ),
     OnboardingData(
       title: 'Make it an Adventure!',
       description: 'Turn your mall visits into a\nquest.',
+      imagePath: 'assets/mallieOnboarding3.png',
     ),
   ];
 
@@ -211,18 +214,17 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
               offset: Offset(relativePosition * 80, 0),
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.35,
+                height: MediaQuery.of(context).size.height * 0.49,
                 decoration: BoxDecoration(
-                  color: data.isLogoPage ? Colors.transparent : Colors.black87,
+                  color:Colors.transparent,
                   borderRadius: BorderRadius.circular(24),
-                  boxShadow: data.isLogoPage ? [] : [
-                    BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 20, offset: const Offset(0, 10))
-                  ],
                 ),
                 child: Center(
                   child: data.isLogoPage
                       ? Image.asset('assets/MallieLogoMain.png', fit: BoxFit.contain)
-                      : const Icon(Icons.image, size: 100, color: Colors.white24),
+                      : data.imagePath != null
+                          ? Image.asset(data.imagePath!, fit: BoxFit.contain)
+                          : const Icon(Icons.image, size: 100, color: Colors.white24),
                 ),
               ),
             ),
@@ -270,10 +272,12 @@ class OnboardingData {
   final String title;
   final String description;
   final bool isLogoPage;
+  final String? imagePath;
 
   OnboardingData({
     required this.title,
     required this.description,
     this.isLogoPage = false,
+    this.imagePath,
   });
 }
