@@ -130,20 +130,25 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
         child: SafeArea(
           child: Column(
             children: [
-              // Skip Button
+              // Skip button — hidden on the first page (Get Started)
               Padding(
                 padding: const EdgeInsets.only(top: 16, right: 20),
                 child: Align(
                   alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: _navigateToHome,
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                      elevation: 2,
-                    ),
-                    child: const Text('Skip', style: TextStyle(color: Color(0xFF1E5F8C), fontWeight: FontWeight.bold)),
-                  ),
+                  child: _currentPage == 0
+                      ? const SizedBox(height: 40) // placeholder to keep layout stable
+                      : TextButton(
+                          onPressed: _navigateToHome,
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                            elevation: 2,
+                          ),
+                          child: const Text(
+                            'Skip',
+                            style: TextStyle(color: Color(0xFF1E5F8C), fontWeight: FontWeight.bold),
+                          ),
+                        ),
                 ),
               ),
               // PageView
@@ -191,56 +196,56 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
     );
   }
 
-Widget _buildPage(OnboardingData data, int index) {
-  double relativePosition = index - _scrollOffset;
+  Widget _buildPage(OnboardingData data, int index) {
+    double relativePosition = index - _scrollOffset;
 
-  return FadeTransition(
-    opacity: _fadeAnimation,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Transform.translate(
-            offset: Offset(relativePosition * 20, 0),
-            child: Text(
-              data.title,
-              style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xFF1E5F8C)),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 40),
-          Transform.translate(
-            offset: Offset(relativePosition * 80, 0),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.35,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(24),
-              ),
-              child: Center(
-                child: data.isLogoPage
-                    ? Image.asset('assets/MallieLogoMain.png', fit: BoxFit.contain)
-                    : data.imagePath != null
-                        ? Image.asset(data.imagePath!, fit: BoxFit.contain)
-                        : const Icon(Icons.image, size: 100, color: Colors.white24),
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Transform.translate(
+              offset: Offset(relativePosition * 20, 0),
+              child: Text(
+                data.title,
+                style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xFF1E5F8C)),
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          SlideTransition(
-            position: _slideAnimation,
-            child: Text(
-              data.description,
-              style: const TextStyle(fontSize: 20, color: Color(0xFF1E5F8C), fontWeight: FontWeight.w400),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 40),
+            Transform.translate(
+              offset: Offset(relativePosition * 80, 0),
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.35,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Center(
+                  child: data.isLogoPage
+                      ? Image.asset('assets/MallieLogoMain.png', fit: BoxFit.contain)
+                      : data.imagePath != null
+                          ? Image.asset(data.imagePath!, fit: BoxFit.contain)
+                          : const Icon(Icons.image, size: 100, color: Colors.white24),
+                ),
+              ),
             ),
-          ),
-        ],
+            SlideTransition(
+              position: _slideAnimation,
+              child: Text(
+                data.description,
+                style: const TextStyle(fontSize: 20, color: Color(0xFF1E5F8C), fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildPageIndicator() {
     return Row(
