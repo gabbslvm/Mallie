@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/home_screen.dart';
+
 
 class PreferencesPage extends StatefulWidget {
   const PreferencesPage({super.key});
@@ -30,12 +32,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFFa8d2e6),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF165CA1), size: 28),
-          onPressed: () {
-            Navigator.of(context).pop();
-            },
-          ),
         title: Text(
           'Preferences',
           style: TextStyle(
@@ -49,7 +45,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
           IconButton(
             icon: Icon(Icons.person_outline, color: Color(0xFF165CA1), size: 28),
             onPressed: () {
-              // User profile button pressed
             },
           ),
         ],
@@ -169,20 +164,17 @@ class _PreferencesPageState extends State<PreferencesPage> {
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               child: Row(
                 children: [
-                  // Skip button
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        // TODO: Uncomment when home screen is ready
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => YourHomeScreen()),
-                        // );
-                        Text('Skipped preferences');
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => MallieHomeScreen()),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 18),
-                        side: BorderSide(color: Color(0xFF165CA1), width: 2),
+                        side: BorderSide(color: Color(0xFFF0B552), width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -192,42 +184,41 @@ class _PreferencesPageState extends State<PreferencesPage> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF165CA1),
+                          color: Color(0xFFF0B552),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 50),
-                  
-                  // Next button
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Text('Selected: $selectedItems');
-                        // TODO: Uncomment when home screen is ready
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => YourHomeScreen()),
-                        // );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF165CA1),
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+
+                  if (selectedItems.isNotEmpty) ...[
+                    SizedBox(width: 50),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => MallieHomeScreen()),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFF0B552),
+                          padding: EdgeInsets.symmetric(vertical: 18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          elevation: 2,
                         ),
-                        elevation: 2,
-                      ),
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
@@ -247,7 +238,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? Color(0xFF4A9FE5) : Colors.white,
+          color: selected ? Color(0xFFF0B552) : Colors.white,
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(

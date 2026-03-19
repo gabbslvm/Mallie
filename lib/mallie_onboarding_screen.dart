@@ -28,17 +28,17 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
     OnboardingData(
       title: 'Find stores easily!',
       description: 'Use Mallie to find any\nstores in seconds.',
-      imagePath: 'assets/mallieOnboarding1.png',
+      imagePath: 'assets/onboard1.png',
     ),
     OnboardingData(
       title: 'Discover by Category',
       description: 'Browse shops by your\npreference.',
-      imagePath: 'assets/mallieOnboarding2.png',
+      imagePath: 'assets/onboard2.png',
     ),
     OnboardingData(
       title: 'Make it an Adventure!',
       description: 'Turn your mall visits into a\nquest.',
-      imagePath: 'assets/mallieOnboarding3.png',
+      imagePath: 'assets/onboard3.png',
     ),
   ];
 
@@ -99,7 +99,7 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
   }
 
   void _navigateToHome() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => const PreferencesPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -169,7 +169,7 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
                         onPressed: _nextPage,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFE5A855),
-                          foregroundColor: const Color(0xFF1E5F8C),
+                          foregroundColor: const Color(0xFFFFFFFF),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           elevation: 4,
                         ),
@@ -191,57 +191,56 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
     );
   }
 
-  Widget _buildPage(OnboardingData data, int index) {
-    double relativePosition = index - _scrollOffset;
+Widget _buildPage(OnboardingData data, int index) {
+  double relativePosition = index - _scrollOffset;
 
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Transform.translate(
-              offset: Offset(relativePosition * 20, 0),
-              child: Text(
-                data.title,
-                style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xFF1E5F8C)),
-                textAlign: TextAlign.center,
+  return FadeTransition(
+    opacity: _fadeAnimation,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Transform.translate(
+            offset: Offset(relativePosition * 20, 0),
+            child: Text(
+              data.title,
+              style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xFF1E5F8C)),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 40),
+          Transform.translate(
+            offset: Offset(relativePosition * 80, 0),
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.35,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Center(
+                child: data.isLogoPage
+                    ? Image.asset('assets/MallieLogoMain.png', fit: BoxFit.contain)
+                    : data.imagePath != null
+                        ? Image.asset(data.imagePath!, fit: BoxFit.contain)
+                        : const Icon(Icons.image, size: 100, color: Colors.white24),
               ),
             ),
-            const SizedBox(height: 40),
-            Transform.translate(
-              offset: Offset(relativePosition * 80, 0),
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.49,
-                decoration: BoxDecoration(
-                  color:Colors.transparent,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Center(
-                  child: data.isLogoPage
-                      ? Image.asset('assets/MallieLogoMain.png', fit: BoxFit.contain)
-                      : data.imagePath != null
-                          ? Image.asset(data.imagePath!, fit: BoxFit.contain)
-                          : const Icon(Icons.image, size: 100, color: Colors.white24),
-                ),
-              ),
+          ),
+          SlideTransition(
+            position: _slideAnimation,
+            child: Text(
+              data.description,
+              style: const TextStyle(fontSize: 20, color: Color(0xFF1E5F8C), fontWeight: FontWeight.w400),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 40),
-            SlideTransition(
-              position: _slideAnimation,
-              child: Text(
-                data.description,
-                style: const TextStyle(fontSize: 20, color: Color(0xFF1E5F8C), fontWeight: FontWeight.w400),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildPageIndicator() {
     return Row(
@@ -258,8 +257,8 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: _currentPage == index
-                  ? const Color(0xFF4A90E2)
-                  : const Color(0xFF4A90E2).withValues(alpha: 0.3),
+                  ? const Color(0xFF5E7394)
+                  : const Color(0xFF959EB1).withValues(alpha: 0.3),
             ),
           ),
         ),
