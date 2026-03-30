@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'mallie_shop_page.dart';
+import 'mallie_quest_page.dart';
+import 'mallie_wallet_page.dart';
+import 'mallie_profile_page.dart';
 
 
 void main() {
@@ -96,6 +100,15 @@ class _MallieHomePageState extends State<MallieHomePage>
   late final Animation<double> _floatAnim;
   late final Animation<double> _pulseAnim;
 
+  // ─── Pages wired to nav tabs ───────────────────────────────────────────────
+  // Index 0 = Home (built inline below), 1–4 are separate page files.
+  static const _pages = [
+    null,               // Home — rendered inline
+    ShopPage(),         // 1 · Shop
+    QuestPage(),        // 2 · Quest
+    WalletPage(),       // 3 · Wallet
+    ProfilePage(),      // 4 · Profile
+  ];
 
   static const _categories = [
     ('Fashion', '👗', Color(0xFFFCE8F0)),
@@ -175,6 +188,16 @@ class _MallieHomePageState extends State<MallieHomePage>
 
   @override
   Widget build(BuildContext context) {
+    // If a non-home tab is active, show that page with the shared bottom nav.
+    if (_selectedTab != 0) {
+      return Scaffold(
+        backgroundColor: kBg,
+        body: _pages[_selectedTab],
+        bottomNavigationBar: _buildBottomNav(),
+      );
+    }
+
+    // ── Home tab ──────────────────────────────────────────────────────────────
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kBg,
@@ -182,19 +205,19 @@ class _MallieHomePageState extends State<MallieHomePage>
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(color: Color(0xFF4D96FF)),
               child: Text(
                 'Welcome, Mallie here!',
                 style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900),
               ),
             ),
-            ListTile(leading: Icon(Icons.help_outline), title: Text('Help & Support'), onTap: () {}),
-            ListTile(leading: Icon(Icons.info_outline), title: Text('About'), onTap: () {}),
-            ListTile(leading: Icon(Icons.feedback_outlined), title: Text('Feedback'), onTap: () {}),
-            ListTile(leading: Icon(Icons.history), title: Text('History'), onTap: () {}),
-            ListTile(leading: Icon(Icons.settings), title: Text('Account Settings'), onTap: () {}),
-            ListTile(leading: Icon(Icons.logout), title: Text('Logout'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.help_outline), title: const Text('Help & Support'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.info_outline), title: const Text('About'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.feedback_outlined), title: const Text('Feedback'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.history), title: const Text('History'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.settings), title: const Text('Account Settings'), onTap: () {}),
+            ListTile(leading: const Icon(Icons.logout), title: const Text('Logout'), onTap: () {}),
           ],
         ),
       ),
@@ -292,7 +315,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
       child: Row(
         children: [
-          // ✅ Blue circle removed — just the logo image with animations
           AnimatedBuilder(
             animation: _floatAnim,
             builder: (_, child) => Transform.translate(
@@ -318,8 +340,8 @@ class _MallieHomePageState extends State<MallieHomePage>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       "Hi! I'm Mallie",
                       style: TextStyle(
                         fontSize: 19,
@@ -328,8 +350,8 @@ class _MallieHomePageState extends State<MallieHomePage>
                         letterSpacing: -0.3,
                       ),
                     ),
-                    const SizedBox(width: 5),
-                    const Text('👋', style: TextStyle(fontSize: 17)),
+                    SizedBox(width: 5),
+                    Text('👋', style: TextStyle(fontSize: 17)),
                   ],
                 ),
                 const Text(
@@ -606,7 +628,7 @@ class _MallieHomePageState extends State<MallieHomePage>
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: isSelected ? Color(0xFFF0B552) : Colors.transparent,
+                  color: isSelected ? kYellow : Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
