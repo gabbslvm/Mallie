@@ -92,7 +92,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                         width: 52,
                         height: 52,
                         decoration: BoxDecoration(
-                          color: kYellow.withOpacity(0.15),
+                          color: kYellow.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: const Center(
@@ -120,7 +120,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: kBlue.withOpacity(0.35),
+                        color: kBlue.withValues(alpha: 0.35),
                         blurRadius: 18,
                         offset: const Offset(0, 7),
                       ),
@@ -143,7 +143,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
+                              color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
@@ -173,7 +173,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                         child: LinearProgressIndicator(
                           value: _progress,
                           minHeight: 10,
-                          backgroundColor: Colors.white.withOpacity(0.3),
+                          backgroundColor: Colors.white.withValues(alpha: 0.3),
                           valueColor: const AlwaysStoppedAnimation<Color>(kYellow),
                         ),
                       ),
@@ -216,7 +216,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.06),
+                        color: Colors.black.withValues(alpha: 0.06),
                         blurRadius: 14,
                         offset: const Offset(0, 5),
                       ),
@@ -311,7 +311,7 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: kBlue.withOpacity(0.35),
+                          color: kBlue.withValues(alpha: 0.35),
                           blurRadius: 16,
                           offset: const Offset(0, 6),
                         ),
@@ -381,7 +381,7 @@ class _MapMarker extends StatelessWidget {
         border: Border.all(color: Colors.white, width: 2),
         boxShadow: [
           BoxShadow(
-            color: (stop.done ? kGreen : kBlue).withOpacity(0.4),
+            color: (stop.done ? kGreen : kBlue).withValues(alpha: 0.4),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -416,7 +416,7 @@ class _QuestStopRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -428,7 +428,7 @@ class _QuestStopRow extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: stop.done ? kGreen.withOpacity(0.12) : kBlue.withOpacity(0.12),
+              color: stop.done ? kGreen.withValues(alpha: 0.12) : kBlue.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
@@ -469,7 +469,7 @@ class _QuestStopRow extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                color: kBlue.withOpacity(0.1),
+                color: kBlue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: const Text(
@@ -522,7 +522,7 @@ class _MapGridPainter extends CustomPainter {
 
     // Path lines
     final pathPaint = Paint()
-      ..color = const Color(0xFF4D96FF).withOpacity(0.3)
+      ..color = const Color(0xFF4D96FF).withValues(alpha: 0.3)
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/mallie_home_screen.dart';
-
+import 'mallie_home_screen.dart';
+import 'auth_screen.dart';
 
 class PreferencesPage extends StatefulWidget {
   const PreferencesPage({super.key});
@@ -26,6 +26,14 @@ class _PreferencesPageState extends State<PreferencesPage> {
     return selectedItems.contains(item);
   }
 
+  // ── Navigate to AuthScreen ─────────────────────────────────────────────────
+  void _goToAuth() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AuthScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +51,13 @@ class _PreferencesPageState extends State<PreferencesPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.person_outline, color: Color(0xFF165CA1), size: 28),
-            onPressed: () {
-            },
+            icon: Icon(
+              Icons.person_outline,
+              color: Color(0xFF165CA1),
+              size: 28,
+            ),
+            // ── Tapping profile icon opens AuthScreen ──────────────────────
+            onPressed: _goToAuth,
           ),
         ],
         elevation: 0,
@@ -55,11 +67,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFa8d2e6),
-              Color(0xFFeaf6ff),
-              Color(0xFFffffff),
-            ],
+            colors: [Color(0xFFa8d2e6), Color(0xFFeaf6ff), Color(0xFFffffff)],
           ),
         ),
         child: Column(
@@ -71,7 +79,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10),
-                    
+
                     Text(
                       'What do you usually shop for?',
                       style: TextStyle(
@@ -166,12 +174,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => MallieHomeScreen()),
-                        );
-                      },
+                      // ── Skip now also goes to AuthScreen ──────────────
+                      onPressed: _goToAuth,
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 18),
                         side: BorderSide(color: Color(0xFFF0B552), width: 2),
@@ -194,12 +198,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     SizedBox(width: 50),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => MallieHomeScreen()),
-                          );
-                        },
+                        // ── Next now goes to AuthScreen ────────────────────
+                        onPressed: _goToAuth,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFF0B552),
                           padding: EdgeInsets.symmetric(vertical: 18),
@@ -230,7 +230,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
 
   Widget buildChip(String label) {
     bool selected = isSelected(label);
-    
+
     return GestureDetector(
       onTap: () {
         onItemTapped(label);

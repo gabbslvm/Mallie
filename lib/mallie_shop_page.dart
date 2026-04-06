@@ -123,7 +123,7 @@ class _ShopPageState extends State<ShopPage> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: kBlue.withOpacity(0.1),
+                      color: kBlue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -176,8 +176,8 @@ class _ShopPageState extends State<ShopPage> {
                         boxShadow: [
                           BoxShadow(
                             color: selected
-                                ? kBlue.withOpacity(0.3)
-                                : Colors.black.withOpacity(0.05),
+                                ? kBlue.withValues(alpha: 0.3)
+                                : Colors.black.withValues(alpha: 0.05),
                             blurRadius: 8,
                             offset: const Offset(0, 3),
                           ),
@@ -258,7 +258,7 @@ class _StoreCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             blurRadius: 14,
             offset: const Offset(0, 5),
           ),
@@ -277,7 +277,7 @@ class _StoreCard extends StatelessWidget {
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                   ),
                   child: Center(
-                    child: Icon(store.icon, size: 52, color: store.accent.withOpacity(0.35)),
+                    child: Icon(store.icon, size: 52, color: store.accent.withValues(alpha: 0.35)),
                   ),
                 ),
                 Positioned(

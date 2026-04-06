@@ -5,7 +5,6 @@ import 'mallie_quest_page.dart';
 import 'mallie_wallet_page.dart';
 import 'mallie_profile_page.dart';
 
-
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -16,7 +15,6 @@ void main() {
   runApp(const MallieHomeScreen());
 }
 
-
 const kBlue = Color(0xFF4D96FF);
 const kYellow = Color(0xFFF0B552);
 const kBg = Color(0xFFEEF3FA);
@@ -24,7 +22,6 @@ const kCard = Color(0xFFFFFFFF);
 const kDark = Color(0xFF1A2340);
 const kMid = Color(0xFF6B7A99);
 const kLight = Color(0xFFB0BAD3);
-const kBlueLight = Color(0xFFE8F1FF);
 
 class MallieHomeScreen extends StatelessWidget {
   const MallieHomeScreen({super.key});
@@ -48,7 +45,6 @@ class MallieHomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 class StoreRec {
   final String name;
@@ -82,7 +78,6 @@ class NearbyStore {
   });
 }
 
-
 class MallieHomePage extends StatefulWidget {
   const MallieHomePage({super.key});
 
@@ -100,14 +95,12 @@ class _MallieHomePageState extends State<MallieHomePage>
   late final Animation<double> _floatAnim;
   late final Animation<double> _pulseAnim;
 
-  // ─── Pages wired to nav tabs ───────────────────────────────────────────────
-  // Index 0 = Home (built inline below), 1–4 are separate page files.
   static const _pages = [
-    null,               // Home — rendered inline
-    ShopPage(),         // 1 · Shop
-    QuestPage(),        // 2 · Quest
-    WalletPage(),       // 3 · Wallet
-    ProfilePage(),      // 4 · Profile
+    null, // Home rendered inline
+    ShopPage(),
+    QuestPage(),
+    WalletPage(),
+    ProfilePage(),
   ];
 
   static const _categories = [
@@ -146,16 +139,35 @@ class _MallieHomePageState extends State<MallieHomePage>
   ];
 
   static const _nearby = [
-    NearbyStore(name: 'PowerHub', floor: '3F', distanceMeters: 42, color: kBlue),
-    NearbyStore(name: 'GadgetZone', floor: '3F', distanceMeters: 78, color: kYellow),
-    NearbyStore(name: 'TechWorld', floor: '4F', distanceMeters: 120, color: Color(0xFF55C08A)),
+    NearbyStore(
+      name: 'PowerHub',
+      floor: '3F',
+      distanceMeters: 42,
+      color: kBlue,
+    ),
+    NearbyStore(
+      name: 'GadgetZone',
+      floor: '3F',
+      distanceMeters: 78,
+      color: kYellow,
+    ),
+    NearbyStore(
+      name: 'TechWorld',
+      floor: '4F',
+      distanceMeters: 120,
+      color: Color(0xFF55C08A),
+    ),
   ];
 
   static const _navItems = [
     (Icons.home_rounded, Icons.home_outlined, 'Home'),
     (Icons.storefront_rounded, Icons.storefront_outlined, 'Shop'),
     (Icons.emoji_events_rounded, Icons.emoji_events_outlined, 'Quest'),
-    (Icons.account_balance_wallet_rounded, Icons.account_balance_wallet_outlined, 'Wallet'),
+    (
+      Icons.account_balance_wallet_rounded,
+      Icons.account_balance_wallet_outlined,
+      'Wallet',
+    ),
     (Icons.person_rounded, Icons.person_outlined, 'Profile'),
   ];
 
@@ -170,12 +182,14 @@ class _MallieHomePageState extends State<MallieHomePage>
       vsync: this,
       duration: const Duration(milliseconds: 1800),
     )..repeat(reverse: true);
-    _floatAnim = Tween<double>(begin: -5, end: 5).animate(
-      CurvedAnimation(parent: _floatCtrl, curve: Curves.easeInOut),
-    );
-    _pulseAnim = Tween<double>(begin: 0.96, end: 1.04).animate(
-      CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut),
-    );
+    _floatAnim = Tween<double>(
+      begin: -5,
+      end: 5,
+    ).animate(CurvedAnimation(parent: _floatCtrl, curve: Curves.easeInOut));
+    _pulseAnim = Tween<double>(
+      begin: 0.96,
+      end: 1.04,
+    ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -185,10 +199,8 @@ class _MallieHomePageState extends State<MallieHomePage>
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    // If a non-home tab is active, show that page with the shared bottom nav.
     if (_selectedTab != 0) {
       return Scaffold(
         backgroundColor: kBg,
@@ -197,49 +209,39 @@ class _MallieHomePageState extends State<MallieHomePage>
       );
     }
 
-    // ── Home tab ──────────────────────────────────────────────────────────────
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: kBg,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFF4D96FF)),
-              child: Text(
-                'Welcome, Mallie here!',
-                style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900),
-              ),
-            ),
-            ListTile(leading: const Icon(Icons.help_outline), title: const Text('Help & Support'), onTap: () {}),
-            ListTile(leading: const Icon(Icons.info_outline), title: const Text('About'), onTap: () {}),
-            ListTile(leading: const Icon(Icons.feedback_outlined), title: const Text('Feedback'), onTap: () {}),
-            ListTile(leading: const Icon(Icons.history), title: const Text('History'), onTap: () {}),
-            ListTile(leading: const Icon(Icons.settings), title: const Text('Account Settings'), onTap: () {}),
-            ListTile(leading: const Icon(Icons.logout), title: const Text('Logout'), onTap: () {}),
-          ],
-        ),
-      ),
+      drawer: _buildDrawer(),
       body: Stack(
         children: [
-          _blob(top: -80, right: -80, color: kBlue.withValues(alpha: 0.07), size: 240),
-          _blob(top: 200, left: -90, color: kYellow.withValues(alpha: 0.06), size: 200),
-          _blob(bottom: 80, right: -50, color: kBlue.withValues(alpha: 0.05), size: 180),
-
+          _blob(
+            top: -80,
+            right: -80,
+            color: kBlue.withValues(alpha: 0.08),
+            size: 240,
+          ),
+          _blob(
+            top: 200,
+            left: -90,
+            color: kYellow.withValues(alpha: 0.06),
+            size: 200,
+          ),
+          _blob(
+            bottom: 80,
+            right: -50,
+            color: kBlue.withValues(alpha: 0.05),
+            size: 180,
+          ),
           Column(
             children: [
               SafeArea(
                 bottom: false,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildTopBar(),
-                    _buildSearchBar(),
-                  ],
+                  children: [_buildTopBar(), _buildSearchBar()],
                 ),
               ),
-
               Expanded(
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -253,7 +255,10 @@ class _MallieHomePageState extends State<MallieHomePage>
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(20, 26, 20, 0),
-                        child: _sectionHeader('Recommended for you', showStar: true),
+                        child: _sectionHeader(
+                          'Recommended for you',
+                          showStar: true,
+                        ),
                       ),
                     ),
                     SliverToBoxAdapter(
@@ -274,19 +279,53 @@ class _MallieHomePageState extends State<MallieHomePage>
                         child: _buildNearbyList(),
                       ),
                     ),
-                    const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                    const SliverToBoxAdapter(child: SizedBox(height: 100)),
                   ],
                 ),
               ),
-
-              _buildBottomNav(),
             ],
           ),
+          Positioned(bottom: 0, left: 0, right: 0, child: _buildBottomNav()),
         ],
       ),
     );
   }
 
+  Widget _buildDrawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: kBlue),
+            child: Text(
+              'Welcome, Mallie here!',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.help_outline),
+            title: const Text('Help & Support'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Account Settings'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _blob({
     double? top,
@@ -309,7 +348,6 @@ class _MallieHomePageState extends State<MallieHomePage>
     );
   }
 
-
   Widget _buildTopBar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -327,75 +365,55 @@ class _MallieHomePageState extends State<MallieHomePage>
                   Transform.scale(scale: _pulseAnim.value, child: child),
               child: Image.asset(
                 'assets/mallie_mini_logo.png',
-                width: 70,
-                height: 70,
+                width: 60,
+                height: 60,
+                errorBuilder: (c, e, s) => const Icon(Icons.face, size: 40),
               ),
             ),
           ),
-
           const SizedBox(width: 12),
-
-          Expanded(
+          const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  children: const [
+                  children: [
                     Text(
                       "Hi! I'm Mallie",
                       style: TextStyle(
-                        fontSize: 19,
+                        fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: kDark,
-                        letterSpacing: -0.3,
                       ),
                     ),
                     SizedBox(width: 5),
-                    Text('👋', style: TextStyle(fontSize: 17)),
+                    Text('👋', style: TextStyle(fontSize: 16)),
                   ],
                 ),
-                const Text(
+                Text(
                   'Your smart mall navigator',
-                  style: TextStyle(fontSize: 12, color: kMid),
+                  style: TextStyle(fontSize: 11, color: kMid),
                 ),
               ],
             ),
           ),
-
           _iconButton(
-            child: Stack(
-              children: [
-                const Icon(Icons.notifications_outlined, color: kDark, size: 22),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFF4D4D),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
+            child: const Icon(
+              Icons.notifications_outlined,
+              color: kDark,
+              size: 20,
             ),
           ),
-
           const SizedBox(width: 8),
-
           GestureDetector(
             onTap: () => _scaffoldKey.currentState?.openDrawer(),
             child: _iconButton(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   _burgerLine(width: 18),
                   const SizedBox(height: 4),
-                  _burgerLine(width: 13),
-                  const SizedBox(height: 4),
-                  _burgerLine(width: 18),
+                  _burgerLine(width: 12),
                 ],
               ),
             ),
@@ -414,7 +432,7 @@ class _MallieHomePageState extends State<MallieHomePage>
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -435,7 +453,6 @@ class _MallieHomePageState extends State<MallieHomePage>
     );
   }
 
-
   Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
@@ -446,37 +463,26 @@ class _MallieHomePageState extends State<MallieHomePage>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: kBlue.withValues(alpha: 0.10),
+              color: kBlue.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, 6),
             ),
           ],
         ),
-        child: Row(
+        child: const Row(
           children: [
-            const SizedBox(width: 16),
-            const Icon(Icons.search_rounded, color: kLight, size: 22),
-            const SizedBox(width: 10),
-            const Expanded(
+            SizedBox(width: 16),
+            Icon(Icons.search_rounded, color: kLight, size: 22),
+            SizedBox(width: 10),
+            Expanded(
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search for stores or products...',
-                  hintStyle: TextStyle(color: kLight, fontSize: 13),
+                  hintText: 'Search stores...',
                   border: InputBorder.none,
                   isDense: true,
                 ),
                 style: TextStyle(fontSize: 13, color: kDark),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(7),
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                color: kBlue,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.tune_rounded, color: Colors.white, size: 18),
             ),
           ],
         ),
@@ -484,13 +490,11 @@ class _MallieHomePageState extends State<MallieHomePage>
     );
   }
 
-
   Widget _buildCategories() {
     return SizedBox(
-      height: 92,
+      height: 90,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: _categories.length,
         itemBuilder: (_, i) {
@@ -500,21 +504,14 @@ class _MallieHomePageState extends State<MallieHomePage>
             child: Column(
               children: [
                 Container(
-                  width: 58,
-                  height: 58,
+                  width: 55,
+                  height: 55,
                   decoration: BoxDecoration(
                     color: bg,
                     borderRadius: BorderRadius.circular(18),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
                   child: Center(
-                    child: Text(emoji, style: const TextStyle(fontSize: 26)),
+                    child: Text(emoji, style: const TextStyle(fontSize: 24)),
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -534,7 +531,6 @@ class _MallieHomePageState extends State<MallieHomePage>
     );
   }
 
-
   Widget _sectionHeader(String title, {bool showStar = false}) {
     return Row(
       children: [
@@ -544,36 +540,28 @@ class _MallieHomePageState extends State<MallieHomePage>
             fontSize: 16,
             fontWeight: FontWeight.w800,
             color: kDark,
-            letterSpacing: -0.2,
           ),
         ),
-        if (showStar) ...[
-          const SizedBox(width: 6),
-          const Text('✨', style: TextStyle(fontSize: 14)),
-        ],
+        if (showStar)
+          const Padding(padding: EdgeInsets.only(left: 6), child: Text('✨')),
         const Spacer(),
-        GestureDetector(
-          onTap: () {},
-          child: const Text(
-            'See all',
-            style: TextStyle(
-              fontSize: 12,
-              color: kBlue,
-              fontWeight: FontWeight.w700,
-            ),
+        const Text(
+          'See all',
+          style: TextStyle(
+            fontSize: 12,
+            color: kBlue,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],
     );
   }
 
-
   Widget _buildRecommendedCards() {
     return SizedBox(
-      height: 136,
+      height: 140,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: _recs.length,
         itemBuilder: (_, i) => Padding(
@@ -585,72 +573,69 @@ class _MallieHomePageState extends State<MallieHomePage>
   }
 
   Widget _buildNearbyList() {
-    return Column(
-      children: _nearby
-          .map((s) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _NearbyRow(store: s),
-              ))
-          .toList(),
-    );
+    return Column(children: _nearby.map((s) => _NearbyRow(store: s)).toList());
   }
-
 
   Widget _buildBottomNav() {
     return SafeArea(
-      top: false,
       child: Container(
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        height: 70,
         decoration: BoxDecoration(
           color: kCard,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.08),
+              color: kDark.withValues(alpha: 0.1),
               blurRadius: 20,
-              offset: const Offset(0, -4),
+              offset: const Offset(0, 8),
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: List.generate(_navItems.length, (i) {
-            final (filledIcon, outlineIcon, label) = _navItems[i];
+            final (filled, outline, label) = _navItems[i];
             final isSelected = _selectedTab == i;
-            return GestureDetector(
-              onTap: () => setState(() => _selectedTab = i),
-              behavior: HitTestBehavior.opaque,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-                padding: EdgeInsets.symmetric(
-                  horizontal: isSelected ? 14 : 10,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: isSelected ? kYellow : Colors.transparent,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isSelected ? filledIcon : outlineIcon,
-                      color: isSelected ? Colors.white : kLight,
-                      size: 22,
-                    ),
-                    if (isSelected) ...[
-                      const SizedBox(width: 5),
-                      Text(
-                        label,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                        ),
+            return Expanded(
+              flex: isSelected ? 3 : 2,
+              child: GestureDetector(
+                onTap: () {
+                  HapticFeedback.selectionClick();
+                  setState(() => _selectedTab = i);
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: isSelected ? kYellow : Colors.transparent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isSelected ? filled : outline,
+                        color: isSelected ? Colors.white : kLight,
+                        size: 22,
                       ),
+                      if (isSelected)
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: Text(
+                              label,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
-                  ],
+                  ),
                 ),
               ),
             );
@@ -668,15 +653,15 @@ class _RecCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 260,
+      width: 250,
       decoration: BoxDecoration(
         color: kCard,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -684,53 +669,50 @@ class _RecCard extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     rec.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: rec.accent,
-                      letterSpacing: 0.6,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.location_on_rounded, size: 12, color: kBlue),
-                      const SizedBox(width: 3),
+                      const Icon(
+                        Icons.location_on_rounded,
+                        size: 12,
+                        color: kBlue,
+                      ),
+                      const SizedBox(width: 4),
                       Flexible(
                         child: Text(
                           rec.location,
-                          style: const TextStyle(fontSize: 11, color: kMid),
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 10, color: kMid),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    rec.price,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: kBlue,
-                    ),
-                  ),
                   const SizedBox(height: 8),
-                  Row(
-                    children: const [
-                      Icon(Icons.location_on, size: 13, color: kBlue),
-                      SizedBox(width: 3),
+                  const Row(
+                    children: [
+                      Icon(Icons.map_outlined, size: 14, color: kBlue),
+                      SizedBox(width: 4),
                       Text(
-                        'View on Map',
+                        'Map',
                         style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
                           color: kBlue,
                         ),
                       ),
@@ -740,55 +722,52 @@ class _RecCard extends StatelessWidget {
               ),
             ),
           ),
-
-          Stack(
-            children: [
-              Container(
-                width: 110,
-                height: 136,
-                decoration: BoxDecoration(
-                  color: rec.accent.withValues(alpha: 0.08),
-                  borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
-                ),
-                child: Center(
+          Container(
+            width: 90,
+            height: 140,
+            decoration: BoxDecoration(
+              color: rec.accent.withValues(alpha: 0.1),
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Center(
                   child: Icon(
                     rec.icon,
-                    size: 50,
-                    color: rec.accent.withValues(alpha: 0.25),
+                    size: 40,
+                    color: rec.accent.withValues(alpha: 0.2),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: kYellow,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    rec.discount,
-                    style: const TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      letterSpacing: 0.3,
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: kYellow,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      rec.discount,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 }
-
 
 class _NearbyRow extends StatelessWidget {
   final NearbyStore store;
@@ -797,28 +776,22 @@ class _NearbyRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: kCard,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
       child: Row(
         children: [
           Container(
-            width: 38,
-            height: 38,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
-              color: store.color.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(12),
+              color: store.color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Icons.location_on_rounded, color: store.color, size: 20),
+            child: Icon(Icons.store, color: store.color),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -828,19 +801,19 @@ class _NearbyRow extends StatelessWidget {
                 Text(
                   store.name,
                   style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
                     color: kDark,
                   ),
                 ),
                 Text(
-                  '${store.floor} · ${store.distanceMeters}m away',
+                  '${store.floor} · ${store.distanceMeters}m',
                   style: const TextStyle(fontSize: 11, color: kMid),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: kLight, size: 22),
+          const Icon(Icons.chevron_right, color: kLight),
         ],
       ),
     );

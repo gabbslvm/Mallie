@@ -62,7 +62,7 @@ class _WalletPageState extends State<WalletPage> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.07),
+                            color: Colors.black.withValues(alpha: 0.07),
                             blurRadius: 10,
                             offset: const Offset(0, 3),
                           ),
@@ -153,9 +153,9 @@ class _WalletPageState extends State<WalletPage> {
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: kYellow.withOpacity(0.12),
+                    color: kYellow.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: kYellow.withOpacity(0.3)),
+                    border: Border.all(color: kYellow.withValues(alpha: 0.3)),
                   ),
                   child: Row(
                     children: [
@@ -275,7 +275,7 @@ class _WalletCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: gradient.first.withOpacity(0.4),
+              color: gradient.first.withValues(alpha: 0.4),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -349,7 +349,7 @@ class _QuickAction extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -361,13 +361,15 @@ class _QuickAction extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.12),
+                  color: color.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, color: color, size: 20),
               ),
               const SizedBox(height: 6),
-              Text(
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
                 label,
                 style: TextStyle(
                   fontSize: 10,
@@ -375,6 +377,7 @@ class _QuickAction extends StatelessWidget {
                   color: color,
                 ),
               ),
+              )
             ],
           ),
         ),
@@ -414,7 +417,7 @@ class _TransactionRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -426,7 +429,7 @@ class _TransactionRow extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: tx.color.withOpacity(0.1),
+              color: tx.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(tx.icon, color: tx.color, size: 20),

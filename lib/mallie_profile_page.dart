@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth_screen.dart';
 
 const kBlue = Color(0xFF4D96FF);
 const kYellow = Color(0xFFF0B552);
@@ -29,6 +30,53 @@ class ProfilePage extends StatelessWidget {
     (Icons.logout_rounded, 'Log Out', Color(0xFFFF5555)),
   ];
 
+  void _handleMenuTap(BuildContext context, String label) {
+    if (label == 'Log Out') {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Log Out',
+            style: TextStyle(fontWeight: FontWeight.w800, color: kDark),
+          ),
+          content: const Text(
+            'Are you sure you want to log out?',
+            style: TextStyle(color: kMid),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: kMid, fontWeight: FontWeight.w600),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AuthScreen()),
+                  (route) => false,
+                );
+              },
+              child: const Text(
+                'Log Out',
+                style: TextStyle(
+                  color: Color(0xFFFF5555),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +84,9 @@ class ProfilePage extends StatelessWidget {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          // Profile header
           SliverToBoxAdapter(
             child: Stack(
               children: [
-                // Background gradient
                 Container(
                   height: 200,
                   decoration: const BoxDecoration(
@@ -49,10 +95,11 @@ class ProfilePage extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(30),
+                    ),
                   ),
                 ),
-                // Decorative circles
                 Positioned(
                   top: -30,
                   right: -30,
@@ -60,7 +107,7 @@ class ProfilePage extends StatelessWidget {
                     width: 130,
                     height: 130,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -72,12 +119,11 @@ class ProfilePage extends StatelessWidget {
                     width: 70,
                     height: 70,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.06),
+                      color: Colors.white.withValues(alpha: 0.06),
                       shape: BoxShape.circle,
                     ),
                   ),
                 ),
-                // Content
                 Positioned.fill(
                   child: SafeArea(
                     child: Padding(
@@ -100,10 +146,14 @@ class ProfilePage extends StatelessWidget {
                                 width: 38,
                                 height: 38,
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.settings_outlined, color: Colors.white, size: 20),
+                                child: const Icon(
+                                  Icons.settings_outlined,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                             ],
                           ),
@@ -116,12 +166,18 @@ class ProfilePage extends StatelessWidget {
                                     width: 68,
                                     height: 68,
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.25),
+                                      color: Colors.white.withValues(alpha: 0.25),
                                       shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.white, width: 3),
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 3,
+                                      ),
                                     ),
                                     child: const Center(
-                                      child: Text('👤', style: TextStyle(fontSize: 32)),
+                                      child: Text(
+                                        '👤',
+                                        style: TextStyle(fontSize: 32),
+                                      ),
                                     ),
                                   ),
                                   Positioned(
@@ -134,10 +190,22 @@ class ProfilePage extends StatelessWidget {
                                         color: kGreen,
                                         shape: BoxShape.circle,
                                         border: BorderDirectional(
-                                          bottom: BorderSide(color: Colors.white, width: 2),
-                                          end: BorderSide(color: Colors.white, width: 2),
-                                          start: BorderSide(color: Colors.white, width: 2),
-                                          top: BorderSide(color: Colors.white, width: 2),
+                                          bottom: BorderSide(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
+                                          end: BorderSide(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
+                                          start: BorderSide(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
+                                          top: BorderSide(
+                                            color: Colors.white,
+                                            width: 2,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -168,7 +236,10 @@ class ProfilePage extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 6),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 3,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: kYellow,
                                         borderRadius: BorderRadius.circular(20),
@@ -196,7 +267,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // Stats row
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -207,7 +277,7 @@ class ProfilePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
+                      color: Colors.black.withValues(alpha: 0.06),
                       blurRadius: 14,
                       offset: const Offset(0, 5),
                     ),
@@ -226,7 +296,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // Badges section
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -248,7 +317,9 @@ class ProfilePage extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
-                      children: _badges.map((b) => _BadgeTile(emoji: b.$1, label: b.$2)).toList(),
+                      children: _badges
+                          .map((b) => _BadgeTile(emoji: b.$1, label: b.$2))
+                          .toList(),
                     ),
                   ),
                 ],
@@ -256,7 +327,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // Menu items
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -281,7 +351,7 @@ class ProfilePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -295,16 +365,19 @@ class ProfilePage extends StatelessWidget {
                     return Column(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => _handleMenuTap(context, label),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
+                            ),
                             child: Row(
                               children: [
                                 Container(
                                   width: 36,
                                   height: 36,
                                   decoration: BoxDecoration(
-                                    color: color.withOpacity(0.12),
+                                    color: color.withValues(alpha: 0.12),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Icon(icon, color: color, size: 18),
@@ -316,12 +389,18 @@ class ProfilePage extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      color: label == 'Log Out' ? const Color(0xFFFF5555) : kDark,
+                                      color: label == 'Log Out'
+                                          ? const Color(0xFFFF5555)
+                                          : kDark,
                                     ),
                                   ),
                                 ),
                                 if (label != 'Log Out')
-                                  const Icon(Icons.chevron_right_rounded, color: kLight, size: 20),
+                                  const Icon(
+                                    Icons.chevron_right_rounded,
+                                    color: kLight,
+                                    size: 20,
+                                  ),
                               ],
                             ),
                           ),
@@ -330,7 +409,7 @@ class ProfilePage extends StatelessWidget {
                           Divider(
                             height: 1,
                             indent: 66,
-                            color: kLight.withOpacity(0.4),
+                            color: kLight.withValues(alpha: 0.4),
                           ),
                       ],
                     );
@@ -346,7 +425,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _vDivider() => Container(width: 1, height: 40, color: kLight.withOpacity(0.4));
+  Widget _vDivider() =>
+      Container(width: 1, height: 40, color: kLight.withValues(alpha: 0.4));
 }
 
 class _StatItem extends StatelessWidget {
@@ -354,7 +434,11 @@ class _StatItem extends StatelessWidget {
   final String label;
   final String icon;
 
-  const _StatItem({required this.value, required this.label, required this.icon});
+  const _StatItem({
+    required this.value,
+    required this.label,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -372,10 +456,7 @@ class _StatItem extends StatelessWidget {
               letterSpacing: -0.3,
             ),
           ),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 11, color: kMid),
-          ),
+          Text(label, style: const TextStyle(fontSize: 11, color: kMid)),
         ],
       ),
     );
@@ -396,10 +477,10 @@ class _BadgeTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: kCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: kYellow.withOpacity(0.4)),
+        border: Border.all(color: kYellow.withValues(alpha: 0.4)),
         boxShadow: [
           BoxShadow(
-            color: kYellow.withOpacity(0.1),
+            color: kYellow.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
