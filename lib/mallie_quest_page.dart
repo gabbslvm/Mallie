@@ -57,7 +57,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // Header
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -105,7 +104,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
               ),
             ),
 
-            // Progress card
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -205,7 +203,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
               ),
             ),
 
-            // Map placeholder
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -224,7 +221,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                   ),
                   child: Stack(
                     children: [
-                      // Simulated map grid
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: CustomPaint(
@@ -232,7 +228,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                           painter: _MapGridPainter(),
                         ),
                       ),
-                      // Stop markers
                       ..._questStops.asMap().entries.map((e) {
                         final positions = [
                           const Offset(0.25, 0.3),
@@ -250,7 +245,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
                           ),
                         );
                       }),
-                      // Legend
                       Positioned(
                         bottom: 12,
                         left: 14,
@@ -272,7 +266,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
               ),
             ),
 
-            // Quest stops list
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 6),
@@ -298,7 +291,6 @@ class _QuestPageState extends State<QuestPage> with SingleTickerProviderStateMix
               ),
             ),
 
-            // Start button
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
@@ -496,18 +488,15 @@ class _MapGridPainter extends CustomPainter {
       ..color = const Color(0xFFE8EFF8)
       ..strokeWidth = 1;
 
-    // Horizontal lines
     for (int i = 1; i < 6; i++) {
       final y = size.height * i / 6;
       canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
-    // Vertical lines
     for (int i = 1; i < 8; i++) {
       final x = size.width * i / 8;
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
 
-    // Draw some "blocks" to simulate mall map
     final blockPaint = Paint()..color = const Color(0xFFD8E6F5);
     final blocks = [
       Rect.fromLTWH(size.width * 0.08, size.height * 0.12, size.width * 0.28, size.height * 0.32),
@@ -520,7 +509,6 @@ class _MapGridPainter extends CustomPainter {
       canvas.drawRRect(RRect.fromRectAndRadius(block, const Radius.circular(6)), blockPaint);
     }
 
-    // Path lines
     final pathPaint = Paint()
       ..color = const Color(0xFF4D96FF).withValues(alpha: 0.3)
       ..strokeWidth = 2

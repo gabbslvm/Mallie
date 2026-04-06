@@ -102,9 +102,8 @@ class _MallieHomePageState extends State<MallieHomePage>
   late final Animation<double> _floatAnim;
   late final Animation<double> _pulseAnim;
 
-  // Pages are built dynamically so ProfilePage gets live user data
   List<Widget?> get _pages => [
-    null, // Home rendered inline
+    null,
     const ShopPage(),
     const QuestPage(),
     const WalletPage(),
@@ -167,7 +166,6 @@ class _MallieHomePageState extends State<MallieHomePage>
     ),
   ];
 
-  // ── Nav items updated: Shop → Map ──────────────────────────────────────────
   static const _navItems = [
     (Icons.home_rounded, Icons.home_outlined, 'Home'),
     (Icons.location_on_rounded, Icons.location_on_outlined, 'Map'),
@@ -209,8 +207,6 @@ class _MallieHomePageState extends State<MallieHomePage>
     if (_selectedTab != 0) {
       return Scaffold(
         backgroundColor: kBg,
-        // Using bottomNavigationBar here prevents the overflow on sub-pages
-        // because Flutter automatically accounts for the system nav bar inset.
         bottomNavigationBar: _buildBottomNav(),
         body: _pages[_selectedTab]!,
       );
@@ -317,12 +313,16 @@ class _MallieHomePageState extends State<MallieHomePage>
           ListTile(
             leading: const Icon(Icons.help_outline),
             title: const Text('Help & Support'),
-            onTap: () {},
+            onTap: () {
+              // navigate to help page
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Account Settings'),
-            onTap: () {},
+            onTap: () {
+              // navigate to settings page
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),
@@ -588,10 +588,8 @@ class _MallieHomePageState extends State<MallieHomePage>
     return Column(children: _nearby.map((s) => _NearbyRow(store: s)).toList());
   }
 
-  // ── Modern floating nav: light blue bg, white labels, yellow pill on active ─
   Widget _buildBottomNav() {
     return Padding(
-      // Fixed padding — no SafeArea wrapper (prevents overflow on sub-pages)
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: Container(
         height: 68,
@@ -634,7 +632,6 @@ class _MallieHomePageState extends State<MallieHomePage>
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      // Yellow pill only on the active tab
                       color: isSelected ? kYellow : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: isSelected

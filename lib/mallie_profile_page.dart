@@ -112,10 +112,8 @@ class ProfilePage extends StatelessWidget {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          // ── Header ────────────────────────────────────────────────────────
           SliverToBoxAdapter(child: _buildHeader()),
 
-          // ── Profile card ──────────────────────────────────────────────────
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -123,7 +121,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // ── Activity section ──────────────────────────────────────────────
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
@@ -156,7 +153,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // ── My Badges ─────────────────────────────────────────────────────
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
@@ -189,7 +185,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
 
-          // ── Account menu ──────────────────────────────────────────────────
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
@@ -292,7 +287,6 @@ class ProfilePage extends StatelessWidget {
   Widget _buildHeader() {
     return Stack(
       children: [
-        // Gradient background
         Container(
           height: 130,
           decoration: const BoxDecoration(
@@ -304,7 +298,6 @@ class ProfilePage extends StatelessWidget {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(36)),
           ),
         ),
-        // Decorative blobs
         Positioned(
           top: -30,
           right: -20,
@@ -329,7 +322,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        // Yellow accent circle
         Positioned(
           bottom: -10,
           left: -20,
@@ -342,7 +334,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        // Top bar content
         Positioned.fill(
           child: SafeArea(
             child: Padding(
@@ -403,7 +394,6 @@ class ProfilePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Avatar
           Stack(
             children: [
               Container(
@@ -443,7 +433,6 @@ class ProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 14),
 
-          // Name & email
           Text(
             userName.isEmpty ? 'Mallie User' : userName,
             style: const TextStyle(
@@ -460,7 +449,6 @@ class ProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 10),
 
-          // Gold member badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
             decoration: BoxDecoration(
@@ -493,7 +481,6 @@ class ProfilePage extends StatelessWidget {
           Divider(height: 1, color: kLight.withValues(alpha: 0.4)),
           const SizedBox(height: 16),
 
-          // Stats row
           IntrinsicHeight(
             child: Row(
               children: [

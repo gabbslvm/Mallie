@@ -36,7 +36,6 @@ class _WalletPageState extends State<WalletPage> {
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // Header
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -75,7 +74,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Card carousel
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
@@ -105,7 +103,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Dots indicator
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(top: 12),
@@ -128,7 +125,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Quick actions
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 22, 20, 0),
@@ -146,7 +142,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Points banner
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -202,7 +197,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Transactions header
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 22, 20, 10),
@@ -231,7 +225,6 @@ class _WalletPageState extends State<WalletPage> {
               ),
             ),
 
-            // Transactions list
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (_, i) => Padding(

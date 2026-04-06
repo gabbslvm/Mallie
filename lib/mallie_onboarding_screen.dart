@@ -130,13 +130,12 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
         child: SafeArea(
           child: Column(
             children: [
-              // Skip button — hidden on the first page (Get Started)
               Padding(
                 padding: const EdgeInsets.only(top: 16, right: 20),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: _currentPage == 0
-                      ? const SizedBox(height: 40) // placeholder to keep layout stable
+                      ? const SizedBox(height: 40)
                       : TextButton(
                           onPressed: _navigateToHome,
                           style: TextButton.styleFrom(
@@ -151,7 +150,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
                         ),
                 ),
               ),
-              // PageView
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
@@ -162,7 +160,6 @@ class _MallieOnboardingScreenState extends State<MallieOnboardingScreen>
                   },
                 ),
               ),
-              // Bottom Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                 child: Column(

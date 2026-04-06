@@ -103,7 +103,6 @@ class _ShopPageState extends State<ShopPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: Row(
@@ -154,7 +153,6 @@ class _ShopPageState extends State<ShopPage> {
               ),
             ),
 
-            // Filter chips
             const SizedBox(height: 16),
             SizedBox(
               height: 38,
@@ -199,7 +197,6 @@ class _ShopPageState extends State<ShopPage> {
               ),
             ),
 
-            // Store grid
             const SizedBox(height: 16),
             Expanded(
               child: GridView.builder(
@@ -267,7 +264,6 @@ class _StoreCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Store icon area
           Expanded(
             child: Stack(
               children: [
@@ -303,7 +299,6 @@ class _StoreCard extends StatelessWidget {
             ),
           ),
 
-          // Store info
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
