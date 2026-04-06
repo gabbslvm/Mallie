@@ -110,7 +110,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBg,
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(child: _buildHeader()),
 

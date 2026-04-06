@@ -34,7 +34,7 @@ class _WalletPageState extends State<WalletPage> {
       backgroundColor: kBg,
       body: SafeArea(
         child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Padding(
