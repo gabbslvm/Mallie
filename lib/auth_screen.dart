@@ -60,14 +60,24 @@ class _AuthScreenState extends State<AuthScreen>
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
-    await Future.delayed(
-      const Duration(milliseconds: 1600),
-    );
+    await Future.delayed(const Duration(milliseconds: 1600));
     if (!mounted) return;
     setState(() => _isLoading = false);
+
+    // On login, derive display name from email prefix (e.g. "john.doe@..." → "john.doe")
+    // On sign up, use the name the user typed
+    final displayName = _isLogin
+        ? _emailCtrl.text.trim().split('@').first
+        : _nameCtrl.text.trim();
+
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => MallieHomeScreen()),
+      MaterialPageRoute(
+        builder: (context) => MallieHomeScreen(
+          userName: displayName,
+          userEmail: _emailCtrl.text.trim(),
+        ),
+      ),
       (route) => false,
     );
   }
@@ -276,9 +286,7 @@ class _AuthScreenState extends State<AuthScreen>
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: GestureDetector(
-                                        onTap: () {
-                                          // TODO: forgot password flow
-                                        },
+                                        onTap: () {},
                                         child: const Text(
                                           'Forgot password?',
                                           style: TextStyle(
@@ -302,7 +310,7 @@ class _AuthScreenState extends State<AuthScreen>
                                   ),
 
                                   const SizedBox(height: 20),
-                                  
+
                                   Row(
                                     children: [
                                       Expanded(
@@ -341,7 +349,7 @@ class _AuthScreenState extends State<AuthScreen>
                                           label: 'Google',
                                           icon: Icons.g_mobiledata_rounded,
                                           onTap: () {},
-                                        )
+                                        ),
                                       ),
                                       const SizedBox(width: 12),
                                       Expanded(
@@ -430,7 +438,6 @@ class _MallieLogo extends StatelessWidget {
             size: 80,
           ),
         ),
-
         const SizedBox(height: 14),
         const Text(
           'MALLIE',
@@ -441,7 +448,6 @@ class _MallieLogo extends StatelessWidget {
             letterSpacing: 2.0,
           ),
         ),
-
         const SizedBox(height: 4),
         const Text(
           'Your friendly mall companion',
@@ -476,16 +482,12 @@ class _AuthTabSwitcher extends StatelessWidget {
           _Tab(
             label: 'Sign In',
             active: isLogin,
-            onTap: () {
-              if (!isLogin) onSwitch();
-            },
+            onTap: () { if (!isLogin) onSwitch(); },
           ),
           _Tab(
             label: 'Sign Up',
             active: !isLogin,
-            onTap: () {
-              if (isLogin) onSwitch();
-            },
+            onTap: () { if (isLogin) onSwitch(); },
           ),
         ],
       ),

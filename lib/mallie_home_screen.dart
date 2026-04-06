@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'auth_screen.dart';
 import 'mallie_shop_page.dart';
 import 'mallie_quest_page.dart';
 import 'mallie_wallet_page.dart';
@@ -24,7 +25,10 @@ const kMid = Color(0xFF6B7A99);
 const kLight = Color(0xFFB0BAD3);
 
 class MallieHomeScreen extends StatelessWidget {
-  const MallieHomeScreen({super.key});
+  final String userName;
+  final String userEmail;
+
+  const MallieHomeScreen({super.key, this.userName = '', this.userEmail = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class MallieHomeScreen extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const MallieHomePage(),
+      home: MallieHomePage(userName: userName, userEmail: userEmail),
     );
   }
 }
@@ -79,7 +83,10 @@ class NearbyStore {
 }
 
 class MallieHomePage extends StatefulWidget {
-  const MallieHomePage({super.key});
+  final String userName;
+  final String userEmail;
+
+  const MallieHomePage({super.key, this.userName = '', this.userEmail = ''});
 
   @override
   State<MallieHomePage> createState() => _MallieHomePageState();
@@ -95,12 +102,13 @@ class _MallieHomePageState extends State<MallieHomePage>
   late final Animation<double> _floatAnim;
   late final Animation<double> _pulseAnim;
 
-  static const _pages = [
+  // Pages are built dynamically so ProfilePage gets live user data
+  List<Widget?> get _pages => [
     null, // Home rendered inline
-    ShopPage(),
-    QuestPage(),
-    WalletPage(),
-    ProfilePage(),
+    const ShopPage(),
+    const QuestPage(),
+    const WalletPage(),
+    ProfilePage(userName: widget.userName, userEmail: widget.userEmail),
   ];
 
   static const _categories = [
@@ -159,15 +167,12 @@ class _MallieHomePageState extends State<MallieHomePage>
     ),
   ];
 
+  // ── Nav items updated: Shop → Map ──────────────────────────────────────────
   static const _navItems = [
     (Icons.home_rounded, Icons.home_outlined, 'Home'),
-    (Icons.storefront_rounded, Icons.storefront_outlined, 'Shop'),
+    (Icons.location_on_rounded, Icons.location_on_outlined, 'Map'),
     (Icons.emoji_events_rounded, Icons.emoji_events_outlined, 'Quest'),
-    (
-      Icons.account_balance_wallet_rounded,
-      Icons.account_balance_wallet_outlined,
-      'Wallet',
-    ),
+    (Icons.credit_card_rounded, Icons.credit_card_outlined, 'Wallet'),
     (Icons.person_rounded, Icons.person_outlined, 'Profile'),
   ];
 
@@ -204,8 +209,10 @@ class _MallieHomePageState extends State<MallieHomePage>
     if (_selectedTab != 0) {
       return Scaffold(
         backgroundColor: kBg,
-        body: _pages[_selectedTab],
+        // Using bottomNavigationBar here prevents the overflow on sub-pages
+        // because Flutter automatically accounts for the system nav bar inset.
         bottomNavigationBar: _buildBottomNav(),
+        body: _pages[_selectedTab]!,
       );
     }
 
@@ -320,7 +327,12 @@ class _MallieHomePageState extends State<MallieHomePage>
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const AuthScreen()),
+                (route) => false,
+              );
+            },
           ),
         ],
       ),
@@ -576,70 +588,97 @@ class _MallieHomePageState extends State<MallieHomePage>
     return Column(children: _nearby.map((s) => _NearbyRow(store: s)).toList());
   }
 
+  // ── Modern floating nav: light blue bg, white labels, yellow pill on active ─
   Widget _buildBottomNav() {
-    return SafeArea(
+    return Padding(
+      // Fixed padding — no SafeArea wrapper (prevents overflow on sub-pages)
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
       child: Container(
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        height: 70,
+        height: 68,
         decoration: BoxDecoration(
-          color: kCard,
-          borderRadius: BorderRadius.circular(30),
+          color: Colors.white.withValues(alpha: 0.85),
+          borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
-              color: kDark.withValues(alpha: 0.1),
+              color: kBlue.withValues(alpha: 0.15),
               blurRadius: 20,
-              offset: const Offset(0, 8),
+              spreadRadius: 0,
+              offset: const Offset(0, 6),
+            ),
+            BoxShadow(
+              color: kDark.withValues(alpha: 0.07),
+              blurRadius: 12,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
-        child: Row(
-          children: List.generate(_navItems.length, (i) {
-            final (filled, outline, label) = _navItems[i];
-            final isSelected = _selectedTab == i;
-            return Expanded(
-              flex: isSelected ? 3 : 2,
-              child: GestureDetector(
-                onTap: () {
-                  HapticFeedback.selectionClick();
-                  setState(() => _selectedTab = i);
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(
-                    color: isSelected ? kYellow : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isSelected ? filled : outline,
-                        color: isSelected ? Colors.white : kLight,
-                        size: 22,
-                      ),
-                      if (isSelected)
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 6),
-                            child: Text(
-                              label,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w800,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(28),
+          child: Row(
+            children: List.generate(_navItems.length, (i) {
+              final (filled, outline, label) = _navItems[i];
+              final isSelected = _selectedTab == i;
+
+              return Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    HapticFeedback.selectionClick();
+                    setState(() => _selectedTab = i);
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 280),
+                    curve: Curves.easeInOut,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      // Yellow pill only on the active tab
+                      color: isSelected ? kYellow : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: isSelected
+                          ? [
+                              BoxShadow(
+                                color: kYellow.withValues(alpha: 0.4),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
                               ),
-                            ),
+                            ]
+                          : [],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: Icon(
+                            isSelected ? filled : outline,
+                            key: ValueKey(isSelected),
+                            color: isSelected ? Colors.white : kBlue,
+                            size: isSelected ? 22 : 20,
                           ),
                         ),
-                    ],
+                        const SizedBox(height: 3),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 200),
+                          style: TextStyle(
+                            fontSize: isSelected ? 10.5 : 10,
+                            fontWeight: isSelected
+                                ? FontWeight.w800
+                                : FontWeight.w500,
+                            color: isSelected ? Colors.white : kBlue,
+                            fontFamily: 'Nunito',
+                          ),
+                          child: Text(label),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
