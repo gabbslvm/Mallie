@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/auth_screen.dart';
+import 'auth_screen.dart';
 
 const kBlue = Color(0xFF4D96FF);
 const kYellow = Color(0xFFF0B552);
