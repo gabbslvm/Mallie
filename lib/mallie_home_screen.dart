@@ -202,6 +202,51 @@ class _MallieHomePageState extends State<MallieHomePage>
     super.dispose();
   }
 
+  void _confirmLogout() {
+    Navigator.pop(context);
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text(
+          'Log Out',
+          style: TextStyle(fontWeight: FontWeight.w800, color: kDark),
+        ),
+        content: const Text(
+          'Are you sure you want to log out?',
+          style: TextStyle(color: kMid),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: kMid, fontWeight: FontWeight.w600),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const AuthScreen()),
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Log Out',
+              style: TextStyle(
+                color: Color(0xFFFF5555),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_selectedTab != 0) {
@@ -325,14 +370,15 @@ class _MallieHomePageState extends State<MallieHomePage>
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (_) => const AuthScreen()),
-                (route) => false,
-              );
-            },
+            leading: const Icon(Icons.logout, color: Color(0xFFFF5555)),
+            title: const Text(
+              'Logout',
+              style: TextStyle(
+                color: Color(0xFFFF5555),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            onTap: _confirmLogout,
           ),
         ],
       ),
