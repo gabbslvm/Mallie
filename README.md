@@ -96,14 +96,14 @@ Mallie/
 ├── analysis_options.yaml              #   Dart linting rules
 ├── devtools_options.yaml              #   Dart & Flutter DevTools config
 │
-├── android/  †                        #   Android platform project
-├── ios/      †                        #   iOS platform project
-├── web/      †                        #   Web platform support
-├── linux/    †                        #   Linux desktop support
-├── macos/    †                        #   macOS desktop support
-├── windows/  †                        #   Windows desktop support
-├── test/     †                        #   Default Flutter test directory
-└── .vscode/  †                        #   VS Code workspace settings
+├── android/  \\                        #   Android platform project
+├── ios/      \\                        #   iOS platform project
+├── web/      \\                        #   Web platform support
+├── linux/    \\                        #   Linux desktop support
+├── macos/    \\                        #   macOS desktop support
+├── windows/  \\                        #   Windows desktop support
+├── test/     \\                        #   Default Flutter test directory
+└── .vscode/  \\                        #   VS Code workspace settings
 ```
 
 > **\** = Files/folders actively maintained for this project
