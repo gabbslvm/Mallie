@@ -8,7 +8,7 @@ A mobile mall guide application built with Flutter and Dart. Mallie helps shoppe
 
 ## Features
 
-| Screen | Description |
+| Screen | Features |
 |---|---|
 | **Home Screen** | Search for products with quick category filters and popular search suggestions |
 | **Search Results** | Lists stores selling the searched product with floor location, price, and stock status |
