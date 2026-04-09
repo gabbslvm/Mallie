@@ -8,20 +8,20 @@ A mobile mall guide application built with Flutter and Dart. Mallie helps shoppe
 
 ## Features
 
-- 🏠 **Home Screen** — Search for products with quick category filters and popular search suggestions
-- 🔍 **Search Results** — Lists stores selling the searched product with floor location, price, and stock status
-- 🏬 **Store Details** — Full store info including floor/store number, contact, hours, and available products
-- 🗺️ **Map Screen** — Floor-by-floor mall map with navigation directions to a selected store
-- 🔖 **Saved Stores** — Bookmark stores for quick access later
-- 👤 **Profile Screen** — User settings including mall location, search history, and notification preferences
-- 🔐 **Auth Screen** — Login and authentication flow for user accounts
-- 🌅 **Splash Screen** — Branded launch screen on app startup
-- 🧭 **Onboarding Screen** — First-time user walkthrough and app introduction
-- 🛒 **Shop Page** — Dedicated store/shop browsing experience
-- 🎯 **Quest Page** — Engagement or rewards-based quest feature
-- 💳 **Wallet Page** — In-app wallet or payment-related screen
-- ⚙️ **Preferences Page** — Granular user preference and settings controls
-- 📲 **Bottom Navigation** — Easy switching between Home, Map, Quest, and Profile tabs
+- **Home Screen** — Search for products with quick category filters and popular search suggestions
+- **Search Results** — Lists stores selling the searched product with floor location, price, and stock status
+- **Store Details** — Full store info including floor/store number, contact, hours, and available products
+- **Map Screen** — Floor-by-floor mall map with navigation directions to a selected store
+- **Saved Stores** — Bookmark stores for quick access later
+- **Profile Screen** — User settings including mall location, search history, and notification preferences
+- **Auth Screen** — Login and authentication flow for user accounts
+- **Splash Screen** — Branded launch screen on app startup
+- **Onboarding Screen** — First-time user walkthrough and app introduction
+- **Shop Page** — Dedicated store/shop browsing experience
+- **Quest Page** — Engagement or rewards-based quest feature
+- **Wallet Page** — In-app wallet or payment-related screen
+- **Preferences Page** — Granular user preference and settings controls
+- **Bottom Navigation** — Easy switching between Home, Map, Quest, and Profile tabs
 
 ---
 
@@ -76,20 +76,20 @@ The following outlines the full project structure.
 ```
 Mallie/
 │
-├── assets/                            #     Project images and visual assets
+├── assets/                            #   Project images and visual assets
 │   └── images/
 │
-├── lib/                               #     All application source code
-│   ├── main.dart                      #     App entry point & routing
-│   ├── auth_screen.dart               #     Login / authentication screen
-│   ├── mallie_splash_screen.dart      #     Splash / launch screen
-│   ├── mallie_onboarding_screen.dart  #     First-time onboarding flow
-│   ├── mallie_home_screen.dart        #     Home feed, search, categories
-│   ├── mallie_shop_page.dart          #     Store/shop browsing page
-│   ├── mallie_quest_page.dart         #     Quest / rewards feature
-│   ├── mallie_wallet_page.dart        #     Wallet / payment screen
-│   ├── mallie_profile_page.dart       #     User profile & settings
-│   └── preferences_page.dart          #     Detailed preferences controls
+├── lib/                               #   All application source code
+│   ├── main.dart                      #   App entry point & routing
+│   ├── auth_screen.dart               #   Login / authentication screen
+│   ├── mallie_splash_screen.dart      #   Splash / launch screen
+│   ├── mallie_onboarding_screen.dart  #   First-time onboarding flow
+│   ├── mallie_home_screen.dart        #   Home feed, search, categories
+│   ├── mallie_shop_page.dart          #   Store/shop browsing page
+│   ├── mallie_quest_page.dart         #   Quest / rewards feature
+│   ├── mallie_wallet_page.dart        #   Wallet / payment screen
+│   ├── mallie_profile_page.dart       #   User profile & settings
+│   └── preferences_page.dart          #   Detailed preferences controls
 │
 ├── pubspec.yaml                       #   Dependencies & asset declarations
 ├── pubspec.lock                       #   Locked dependency versions
