@@ -8,21 +8,22 @@ A mobile mall guide application built with Flutter and Dart. Mallie helps shoppe
 
 ## Features
 
-- **Home Screen** — Search for products with quick category filters and popular search suggestions
-- **Search Results** — Lists stores selling the searched product with floor location, price, and stock status
-- **Store Details** — Full store info including floor/store number, contact, hours, and available products
-- **Map Screen** — Floor-by-floor mall map with navigation directions to a selected store
-- **Saved Stores** — Bookmark stores for quick access later
-- **Profile Screen** — User settings including mall location, search history, and notification preferences
-- **Auth Screen** — Login and authentication flow for user accounts
-- **Splash Screen** — Branded launch screen on app startup
-- **Onboarding Screen** — First-time user walkthrough and app introduction
-- **Shop Page** — Dedicated store/shop browsing experience
-- **Quest Page** — Engagement or rewards-based quest feature
-- **Wallet Page** — In-app wallet or payment-related screen
-- **Preferences Page** — Granular user preference and settings controls
-- **Bottom Navigation** — Easy switching between Home, Map, Quest, and Profile tabs
-
+| Screen | Description |
+|---|---|
+| **Home Screen** | Search for products with quick category filters and popular search suggestions |
+| **Search Results** | Lists stores selling the searched product with floor location, price, and stock status |
+| **Store Details** | Full store info including floor/store number, contact, hours, and available products |
+| **Map Screen** | Floor-by-floor mall map with navigation directions to a selected store |
+| **Saved Stores** | Bookmark stores for quick access later |
+| **Profile Screen** | User settings including mall location, search history, and notification preferences |
+| **Auth Screen** | Login and authentication flow for user accounts |
+| **Splash Screen** | Branded launch screen on app startup |
+| **Onboarding Screen** | First-time user walkthrough and app introduction |
+| **Shop Page** | Dedicated store/shop browsing experience |
+| **Quest Page** | Engagement or rewards-based quest feature |
+| **Wallet Page** | In-app wallet or payment-related screen |
+| **Preferences Page** | Granular user preference and settings controls |
+| **Bottom Navigation** | Easy switching between Home, Map, Quest, and Profile tabs |
 ---
 
 ## Tech Stack
