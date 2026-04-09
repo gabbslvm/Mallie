@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'mallie_home_screen.dart';
 import 'auth_screen.dart';
 
 class PreferencesPage extends StatefulWidget {

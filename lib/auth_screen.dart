@@ -142,10 +142,12 @@ class _AuthScreenState extends State<AuthScreen>
 
     if (!_isLogin) {
       if (v.length < 8) return 'Minimum 8 characters required';
-      if (!v.contains(RegExp(r'[A-Z]')))
+      if (!v.contains(RegExp(r'[A-Z]'))) {
         return 'Must contain an uppercase letter';
-      if (!v.contains(RegExp(r'[0-9]')))
+      }  
+      if (!v.contains(RegExp(r'[0-9]'))) {
         return 'Must contain at least one number';
+      }
       if (!v.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
         return 'Must contain a special character';
       }
@@ -269,8 +271,10 @@ class _AuthScreenState extends State<AuthScreen>
                                           _isLogin && _rememberedEmail != null,
                                     ),
                                     validator: (v) {
-                                      if (v == null || v.trim().isEmpty)
+                                      if (v == null || v.trim().isEmpty) {
                                         return 'Email is required';
+                                      }
+                                        
                                       if (!RegExp(
                                         r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
                                       ).hasMatch(v)) {
@@ -332,10 +336,13 @@ class _AuthScreenState extends State<AuthScreen>
                                         ),
                                       ),
                                       validator: (v) {
-                                        if (v == null || v.isEmpty)
+                                        if (v == null || v.isEmpty){
                                           return 'Confirm your password';
-                                        if (v != _passCtrl.text)
+                                        }
+                                          
+                                        if (v != _passCtrl.text) {
                                           return 'Passwords do not match';
+                                        }
                                         return null;
                                       },
                                     ),
