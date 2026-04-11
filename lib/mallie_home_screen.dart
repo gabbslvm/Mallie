@@ -344,14 +344,45 @@ class _MallieHomePageState extends State<MallieHomePage>
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: kBlue),
-            child: Text(
-              'Welcome, Mallie here!',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
+          DrawerHeader(
+            padding: EdgeInsets.zero,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF165CA1), kBlue],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              image: DecorationImage(
+                image: AssetImage('assets/MallieLogoMain.png'),
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+              ),
+            ),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black54],
+                  stops: [0.3, 1.0],
+                ),
+              ),
+              alignment: Alignment.bottomLeft,
+              child: const Text(
+                'Welcome, Mallie here!',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black45,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

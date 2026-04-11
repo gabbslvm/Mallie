@@ -9,6 +9,32 @@ const kMid = Color(0xFF6B7A99);
 const kLight = Color(0xFFB0BAD3);
 const kGreen = Color(0xFF55C08A);
 
+class WalletData {
+  static double balance = 5240.00;
+  static int points = 1350;
+  static List<Transaction> transactions = [];
+}
+
+class Transaction {
+  final String type;
+  final String email;
+  final double amount;
+  final String date;
+  final IconData icon;
+  final Color color;
+  final bool isCredit;
+
+  const Transaction({
+    required this.type,
+    required this.email,
+    required this.amount,
+    required this.date,
+    required this.icon,
+    required this.color,
+    required this.isCredit,
+  });
+}
+
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});
 
@@ -19,17 +45,76 @@ class WalletPage extends StatefulWidget {
 class _WalletPageState extends State<WalletPage> {
   int _activeCard = 0;
 
-  static const _transactions = [
-    _Transaction(store: 'ZARA', amount: -1299.00, date: 'Today, 2:34 PM', icon: Icons.checkroom_rounded, color: Color(0xFF1A1A1A), isCredit: false),
-    _Transaction(store: 'Quest Reward', amount: 100.00, date: 'Today, 1:00 PM', icon: Icons.emoji_events_rounded, color: kGreen, isCredit: true),
-    _Transaction(store: 'McDonald\'s', amount: -250.00, date: 'Yesterday, 12:15 PM', icon: Icons.fastfood_rounded, color: Color(0xFFDA291C), isCredit: false),
-    _Transaction(store: 'SEPHORA', amount: -890.00, date: 'Yesterday, 11:00 AM', icon: Icons.face_retouching_natural, color: Color(0xFFB8003D), isCredit: false),
-    _Transaction(store: 'Cashback Reward', amount: 50.00, date: 'Mar 23, 9:00 AM', icon: Icons.card_giftcard_rounded, color: kYellow, isCredit: true),
-    _Transaction(store: 'NIKE', amount: -3500.00, date: 'Mar 22, 4:45 PM', icon: Icons.directions_run_rounded, color: Color(0xFF111111), isCredit: false),
-  ];
+  void refresh() {
+    if (mounted) setState(() {});
+  }
+
+  void openTopUp() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => TopUpSheet(onDone: refresh),
+    );
+  }
+
+  void openTransfer() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => TransferSheet(onDone: refresh),
+    );
+  }
+
+  void redeem() {
+    if (WalletData.points < 100) return;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text("Redeem Points"),
+        content: Text(
+          "Convert ${WalletData.points} pts to ₱${(WalletData.points / 100).toStringAsFixed(2)}?",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final double cash = WalletData.points / 100;
+              WalletData.balance += cash;
+              WalletData.transactions.insert(
+                0,
+                Transaction(
+                  type: "Redeem",
+                  email: "System",
+                  amount: cash,
+                  date: DateTime.now().toString(),
+                  icon: Icons.card_giftcard_rounded,
+                  color: kYellow,
+                  isCredit: true,
+                ),
+              );
+              WalletData.points = 0;
+              Navigator.pop(dialogContext);
+              if (mounted) setState(() {});
+            },
+            child: const Text("Confirm"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Transaction> get allTx => WalletData.transactions;
+
+  static const _pointsToNextTier = 1500;
 
   @override
   Widget build(BuildContext context) {
+    final int ptsToGold = (_pointsToNextTier - WalletData.points).clamp(0, _pointsToNextTier);
+
     return Scaffold(
       backgroundColor: kBg,
       body: SafeArea(
@@ -51,7 +136,6 @@ class _WalletPageState extends State<WalletPage> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text('💳', style: TextStyle(fontSize: 22)),
                     const Spacer(),
                     Container(
                       width: 40,
@@ -82,15 +166,15 @@ class _WalletPageState extends State<WalletPage> {
                   child: PageView(
                     controller: PageController(viewportFraction: 0.85),
                     onPageChanged: (i) => setState(() => _activeCard = i),
-                    children: const [
+                    children: [
                       _WalletCard(
-                        gradient: [Color(0xFF4D96FF), Color(0xFF6AADFF)],
-                        balance: '₱ 5,240.00',
-                        points: '1,350 pts',
+                        gradient: const [Color(0xFF4D96FF), Color(0xFF6AADFF)],
+                        balance: '₱ ${WalletData.balance.toStringAsFixed(2)}',
+                        points: '${WalletData.points} pts',
                         label: 'Mallie Card',
                         last4: '4820',
                       ),
-                      _WalletCard(
+                      const _WalletCard(
                         gradient: [Color(0xFF1A2340), Color(0xFF2D3A5A)],
                         balance: '₱ 12,800.00',
                         points: '3,200 pts',
@@ -130,13 +214,13 @@ class _WalletPageState extends State<WalletPage> {
                 padding: const EdgeInsets.fromLTRB(20, 22, 20, 0),
                 child: Row(
                   children: [
-                    _QuickAction(icon: Icons.add_rounded, label: 'Top Up', color: kBlue),
+                    _QuickAction(icon: Icons.add_rounded,          label: 'Top Up',   color: kBlue,                    onTap: openTopUp),
                     const SizedBox(width: 12),
-                    _QuickAction(icon: Icons.send_rounded, label: 'Transfer', color: kYellow),
+                    _QuickAction(icon: Icons.send_rounded,         label: 'Transfer', color: kYellow,                  onTap: openTransfer),
                     const SizedBox(width: 12),
-                    _QuickAction(icon: Icons.history_rounded, label: 'History', color: kGreen),
+                    _QuickAction(icon: Icons.history_rounded,      label: 'History',  color: kGreen,                   onTap: () {}),
                     const SizedBox(width: 12),
-                    _QuickAction(icon: Icons.card_giftcard_rounded, label: 'Redeem', color: const Color(0xFFFF6B9D)),
+                    _QuickAction(icon: Icons.card_giftcard_rounded, label: 'Redeem',  color: const Color(0xFFFF6B9D), onTap: redeem),
                   ],
                 ),
               ),
@@ -159,35 +243,40 @@ class _WalletPageState extends State<WalletPage> {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              'You have 1,350 points!',
-                              style: TextStyle(
+                              'You have ${WalletData.points} points!',
+                              style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w800,
                                 color: kDark,
                               ),
                             ),
-                            SizedBox(height: 2),
+                            const SizedBox(height: 2),
                             Text(
-                              '150 more to unlock Gold Tier 🎁',
-                              style: TextStyle(fontSize: 11, color: kMid),
+                              ptsToGold > 0
+                                  ? '$ptsToGold more to unlock Gold Tier 🎁'
+                                  : 'Gold Tier unlocked! 🎉',
+                              style: const TextStyle(fontSize: 11, color: kMid),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: kYellow,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Text(
-                          'Redeem',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                      GestureDetector(
+                        onTap: redeem,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: kYellow,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'Redeem',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -201,8 +290,8 @@ class _WalletPageState extends State<WalletPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 22, 20, 10),
                 child: Row(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'Recent Transactions',
                       style: TextStyle(
                         fontSize: 16,
@@ -211,8 +300,8 @@ class _WalletPageState extends State<WalletPage> {
                         letterSpacing: -0.2,
                       ),
                     ),
-                    const Spacer(),
-                    const Text(
+                    Spacer(),
+                    Text(
                       'See all',
                       style: TextStyle(
                         fontSize: 12,
@@ -227,11 +316,31 @@ class _WalletPageState extends State<WalletPage> {
 
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (_, i) => Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-                  child: _TransactionRow(tx: _transactions[i]),
-                ),
-                childCount: _transactions.length,
+                (_, i) {
+                  if (allTx.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Center(child: Text("No transactions yet")),
+                    );
+                  }
+                  final tx = allTx[i];
+                  return GestureDetector(
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text(tx.type),
+                        content: Text(
+                          "From/To: ${tx.email}\nAmount: ₱${tx.amount.toStringAsFixed(2)}\nDate: ${tx.date}",
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                      child: TransactionRow(tx: tx),
+                    ),
+                  );
+                },
+                childCount: allTx.isEmpty ? 1 : allTx.length,
               ),
             ),
 
@@ -282,11 +391,7 @@ class _WalletCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
                 const Icon(Icons.wifi_rounded, color: Colors.white54, size: 20),
@@ -305,15 +410,9 @@ class _WalletCard extends StatelessWidget {
             const SizedBox(height: 6),
             Row(
               children: [
-                Text(
-                  '⭐ $points',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600),
-                ),
+                Text('⭐ $points', style: const TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w600)),
                 const Spacer(),
-                Text(
-                  '•••• $last4',
-                  style: const TextStyle(color: Colors.white60, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 1.5),
-                ),
+                Text('•••• $last4', style: const TextStyle(color: Colors.white60, fontSize: 13, fontWeight: FontWeight.w600, letterSpacing: 1.5)),
               ],
             ),
           ],
@@ -327,14 +426,15 @@ class _QuickAction extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color color;
+  final VoidCallback onTap;
 
-  const _QuickAction({required this.icon, required this.label, required this.color});
+  const _QuickAction({required this.icon, required this.label, required this.color, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
@@ -363,14 +463,10 @@ class _QuickAction extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
-                  color: color,
+                  label,
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: color),
                 ),
               ),
-              )
             ],
           ),
         ),
@@ -379,27 +475,9 @@ class _QuickAction extends StatelessWidget {
   }
 }
 
-class _Transaction {
-  final String store;
-  final double amount;
-  final String date;
-  final IconData icon;
-  final Color color;
-  final bool isCredit;
-
-  const _Transaction({
-    required this.store,
-    required this.amount,
-    required this.date,
-    required this.icon,
-    required this.color,
-    required this.isCredit,
-  });
-}
-
-class _TransactionRow extends StatelessWidget {
-  final _Transaction tx;
-  const _TransactionRow({required this.tx});
+class TransactionRow extends StatelessWidget {
+  final Transaction tx;
+  const TransactionRow({required this.tx});
 
   @override
   Widget build(BuildContext context) {
@@ -432,18 +510,8 @@ class _TransactionRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  tx.store,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: kDark,
-                  ),
-                ),
-                Text(
-                  tx.date,
-                  style: const TextStyle(fontSize: 11, color: kMid),
-                ),
+                Text(tx.type, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: kDark)),
+                Text(tx.email, style: const TextStyle(fontSize: 11, color: kMid)),
               ],
             ),
           ),
@@ -455,6 +523,108 @@ class _TransactionRow extends StatelessWidget {
               color: tx.isCredit ? kGreen : kDark,
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class TopUpSheet extends StatefulWidget {
+  final VoidCallback onDone;
+  const TopUpSheet({super.key, required this.onDone});
+
+  @override
+  State<TopUpSheet> createState() => _TopUpSheetState();
+}
+
+class _TopUpSheetState extends State<TopUpSheet> {
+  final email = TextEditingController();
+  final amount = TextEditingController();
+
+  void submit() {
+    final double amt = double.tryParse(amount.text) ?? 0;
+    if (amt <= 0) return;
+    WalletData.balance += amt;
+    WalletData.transactions.insert(
+      0,
+      Transaction(
+        type: "Top Up",
+        email: email.text,
+        amount: amt,
+        date: DateTime.now().toString(),
+        icon: Icons.add_rounded,
+        color: kBlue,
+        isCredit: true,
+      ),
+    );
+    widget.onDone();
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(20)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text("Top Up", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: kDark)),
+          const SizedBox(height: 12),
+          TextField(controller: email,  decoration: const InputDecoration(labelText: "Gmail")),
+          TextField(controller: amount, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Amount")),
+          const SizedBox(height: 12),
+          ElevatedButton(onPressed: submit, child: const Text("Confirm")),
+        ],
+      ),
+    );
+  }
+}
+
+class TransferSheet extends StatefulWidget {
+  final VoidCallback onDone;
+  const TransferSheet({super.key, required this.onDone});
+
+  @override
+  State<TransferSheet> createState() => _TransferSheetState();
+}
+
+class _TransferSheetState extends State<TransferSheet> {
+  final email = TextEditingController();
+  final amount = TextEditingController();
+
+  void send() {
+    final double amt = double.tryParse(amount.text) ?? 0;
+    if (amt <= 0 || amt > WalletData.balance) return;
+    WalletData.balance -= amt;
+    WalletData.transactions.insert(
+      0,
+      Transaction(
+        type: "Transfer",
+        email: email.text,
+        amount: amt,
+        date: DateTime.now().toString(),
+        icon: Icons.send_rounded,
+        color: kYellow,
+        isCredit: false,
+      ),
+    );
+    widget.onDone();
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets.add(const EdgeInsets.all(20)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text("Transfer", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: kDark)),
+          const SizedBox(height: 12),
+          TextField(controller: email,  decoration: const InputDecoration(labelText: "Send To (Gmail)")),
+          TextField(controller: amount, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Amount")),
+          const SizedBox(height: 12),
+          ElevatedButton(onPressed: send, child: const Text("Send")),
         ],
       ),
     );

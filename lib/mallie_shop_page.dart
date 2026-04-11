@@ -117,7 +117,6 @@ class _ShopPageState extends State<ShopPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text('🛍️', style: TextStyle(fontSize: 24)),
                   const Spacer(),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
