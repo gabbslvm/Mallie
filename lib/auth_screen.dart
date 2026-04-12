@@ -121,12 +121,13 @@ class _AuthScreenState extends State<AuthScreen>
       await prefs.setString('user_email', email);
       await prefs.setString('user_password', password);
       await prefs.setBool('has_account', true);
+      await prefs.setString('user_name', _nameCtrl.text.trim());
     }
 
     setState(() => _isLoading = false);
 
     final displayName = _isLogin
-        ? email.split('@').first
+        ? (prefs.getString('user_name') ?? email.split('@').first)
         : _nameCtrl.text.trim();
 
     navigator.pushAndRemoveUntil(
