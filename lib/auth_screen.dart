@@ -3,7 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'mallie_home_screen.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  final List<String> selectedPreferences;
+  const AuthScreen({super.key, this.selectedPreferences = const []});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -44,7 +45,6 @@ class _AuthScreenState extends State<AuthScreen>
     ).animate(CurvedAnimation(parent: _animCtrl, curve: Curves.easeOut));
     _animCtrl.forward();
   }
-
 
   Future<void> _checkUserStatus() async {
     final prefs = await SharedPreferences.getInstance();
@@ -91,6 +91,8 @@ class _AuthScreenState extends State<AuthScreen>
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final navigator = Navigator.of(context);
+
     final prefs = await SharedPreferences.getInstance();
     final email = _emailCtrl.text.trim();
     final password = _passCtrl.text;
@@ -127,11 +129,13 @@ class _AuthScreenState extends State<AuthScreen>
         ? email.split('@').first
         : _nameCtrl.text.trim();
 
-    Navigator.pushAndRemoveUntil(
-      context,
+    navigator.pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) =>
-            MallieHomeScreen(userName: displayName, userEmail: email),
+        builder: (context) => MallieHomeScreen(
+          userName: displayName,
+          userEmail: email,
+          selectedPreferences: widget.selectedPreferences,
+        ),
       ),
       (route) => false,
     );
@@ -144,7 +148,7 @@ class _AuthScreenState extends State<AuthScreen>
       if (v.length < 8) return 'Minimum 8 characters required';
       if (!v.contains(RegExp(r'[A-Z]'))) {
         return 'Must contain an uppercase letter';
-      }  
+      }
       if (!v.contains(RegExp(r'[0-9]'))) {
         return 'Must contain at least one number';
       }
@@ -213,7 +217,9 @@ class _AuthScreenState extends State<AuthScreen>
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF165CA1).withValues(alpha: 0.10),
+                          color: const Color(
+                            0xFF165CA1,
+                          ).withValues(alpha: 0.10),
                           blurRadius: 32,
                           offset: const Offset(0, 10),
                         ),
@@ -274,7 +280,7 @@ class _AuthScreenState extends State<AuthScreen>
                                       if (v == null || v.trim().isEmpty) {
                                         return 'Email is required';
                                       }
-                                        
+
                                       if (!RegExp(
                                         r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
                                       ).hasMatch(v)) {
@@ -336,10 +342,10 @@ class _AuthScreenState extends State<AuthScreen>
                                         ),
                                       ),
                                       validator: (v) {
-                                        if (v == null || v.isEmpty){
+                                        if (v == null || v.isEmpty) {
                                           return 'Confirm your password';
                                         }
-                                          
+
                                         if (v != _passCtrl.text) {
                                           return 'Passwords do not match';
                                         }
