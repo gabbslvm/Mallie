@@ -21,15 +21,16 @@ class _PreferencesPageState extends State<PreferencesPage> {
     });
   }
 
-  bool isSelected(String item) {
-    return selectedItems.contains(item);
-  }
+  bool isSelected(String item) => selectedItems.contains(item);
 
-  // ── Navigate to AuthScreen ─────────────────────────────────────────────────
+  // Pass selectedItems to AuthScreen; empty list = skipped (show all)
   void _goToAuth() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AuthScreen()),
+      MaterialPageRoute(
+        builder: (context) =>
+            AuthScreen(selectedPreferences: List.from(selectedItems)),
+      ),
     );
   }
 
@@ -38,8 +39,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFa8d2e6),
-        title: Text(
+        backgroundColor: const Color(0xFFa8d2e6),
+        title: const Text(
           'Preferences',
           style: TextStyle(
             color: Color(0xFF165CA1),
@@ -50,19 +51,14 @@ class _PreferencesPageState extends State<PreferencesPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.person_outline,
-              color: Color(0xFF165CA1),
-              size: 28,
-            ),
-            // ── Tapping profile icon opens AuthScreen ──────────────────────
+            icon: const Icon(Icons.person_outline, color: Color(0xFF165CA1), size: 28),
             onPressed: _goToAuth,
           ),
         ],
         elevation: 0,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -73,13 +69,12 @@ class _PreferencesPageState extends State<PreferencesPage> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10),
-
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       'What do you usually shop for?',
                       style: TextStyle(
                         fontSize: 28,
@@ -87,17 +82,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
                         color: Color(0xFF1a1a1a),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
-                    Text(
-                      'Trending',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1a1a1a),
-                      ),
-                    ),
-                    SizedBox(height: 12),
+                    _sectionLabel('Trending'),
+                    const SizedBox(height: 12),
                     Wrap(
                       spacing: 10,
                       runSpacing: 10,
@@ -112,17 +100,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
                         buildChip('Wellness'),
                       ],
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
 
-                    Text(
-                      'Food & Lifestyle',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1a1a1a),
-                      ),
-                    ),
-                    SizedBox(height: 12),
+                    _sectionLabel('Food & Lifestyle'),
+                    const SizedBox(height: 12),
                     Wrap(
                       spacing: 10,
                       runSpacing: 10,
@@ -136,17 +117,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
                         buildChip('Books'),
                       ],
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
 
-                    Text(
-                      'Personal',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF1a1a1a),
-                      ),
-                    ),
-                    SizedBox(height: 12),
+                    _sectionLabel('Personal'),
+                    const SizedBox(height: 12),
                     Wrap(
                       spacing: 10,
                       runSpacing: 10,
@@ -160,29 +134,28 @@ class _PreferencesPageState extends State<PreferencesPage> {
                         buildChip('Pet Supplies'),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
 
             Container(
-              margin: EdgeInsets.only(bottom: 30),
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+              margin: const EdgeInsets.only(bottom: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               child: Row(
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      // ── Skip now also goes to AuthScreen ──────────────
                       onPressed: _goToAuth,
                       style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        side: BorderSide(color: Color(0xFFF0B552), width: 2),
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        side: const BorderSide(color: Color(0xFFF0B552), width: 2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Skip',
                         style: TextStyle(
                           fontSize: 18,
@@ -192,22 +165,20 @@ class _PreferencesPageState extends State<PreferencesPage> {
                       ),
                     ),
                   ),
-
                   if (selectedItems.isNotEmpty) ...[
-                    SizedBox(width: 50),
+                    const SizedBox(width: 50),
                     Expanded(
                       child: ElevatedButton(
-                        // ── Next now goes to AuthScreen ────────────────────
                         onPressed: _goToAuth,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFF0B552),
-                          padding: EdgeInsets.symmetric(vertical: 18),
+                          backgroundColor: const Color(0xFFF0B552),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 2,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Next',
                           style: TextStyle(
                             fontSize: 18,
@@ -227,23 +198,31 @@ class _PreferencesPageState extends State<PreferencesPage> {
     );
   }
 
-  Widget buildChip(String label) {
-    bool selected = isSelected(label);
+  Widget _sectionLabel(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF1a1a1a),
+      ),
+    );
+  }
 
+  Widget buildChip(String label) {
+    final selected = isSelected(label);
     return GestureDetector(
-      onTap: () {
-        onItemTapped(label);
-      },
+      onTap: () => onItemTapped(label),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? Color(0xFFF0B552) : Colors.white,
+          color: selected ? const Color(0xFFF0B552) : Colors.white,
           borderRadius: BorderRadius.circular(25),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 4,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -252,7 +231,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: selected ? Colors.white : Color(0xFF1a1a1a),
+            color: selected ? Colors.white : const Color(0xFF1a1a1a),
           ),
         ),
       ),

@@ -39,7 +39,6 @@ class MallieApp extends StatelessWidget {
   }
 }
 
-//home screen (for homescreen)
 class MallieHomeScreen extends StatelessWidget {
   const MallieHomeScreen({super. key});
 
