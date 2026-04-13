@@ -569,7 +569,7 @@ class _Mall2DMapState extends State<_Mall2DMap>
                         Positioned.fill(
                           child: AnimatedBuilder(
                             animation: _routeProgress,
-                            builder: (_, __) => CustomPaint(
+                            builder: (_, _) => CustomPaint(
                               painter: _RoutePainter(
                                 route,
                                 _routeProgress.value,
@@ -802,7 +802,7 @@ class _YouAreHereDotState extends State<_YouAreHereDot>
       height: 32,
       child: AnimatedBuilder(
         animation: _ring,
-        builder: (_, __) =>
+        builder: (_, _) =>
             CustomPaint(painter: _YouAreHerePainter(_ring.value)),
       ),
     );
