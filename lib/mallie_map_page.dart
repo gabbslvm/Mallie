@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
-const kBlue   = Color(0xFF4D96FF);
+const kBlue = Color(0xFF4D96FF);
 const kYellow = Color(0xFFF0B552);
-const kBg     = Color(0xFFEEF3FA);
-const kCard   = Color(0xFFFFFFFF);
-const kDark   = Color(0xFF1A2340);
-const kMid    = Color(0xFF6B7A99);
-const kLight  = Color(0xFFB0BAD3);
-const kGreen  = Color(0xFF55C08A);
+const kBg = Color(0xFFEEF3FA);
+const kCard = Color(0xFFFFFFFF);
+const kDark = Color(0xFF1A2340);
+const kMid = Color(0xFF6B7A99);
+const kLight = Color(0xFFB0BAD3);
+const kGreen = Color(0xFF55C08A);
+
+/* ═══════════════════════════════════════════════════════════════
+   QUEST STORE MODEL
+═══════════════════════════════════════════════════════════════ */
 
 class QuestStore {
   final String name;
@@ -40,6 +44,33 @@ const questStores = <QuestStore>[
     accent: Color(0xFFDA291C),
   ),
   QuestStore(
+    name: 'Jollibee',
+    category: 'Food',
+    floorCode: 'B1',
+    zone: 'Food Court',
+    reward: '+70 pts',
+    icon: Icons.lunch_dining_rounded,
+    accent: Color(0xFFE31837),
+  ),
+  QuestStore(
+    name: 'Starbucks',
+    category: 'Food',
+    floorCode: '1F',
+    zone: 'Main Atrium',
+    reward: '+60 pts',
+    icon: Icons.local_cafe_rounded,
+    accent: Color(0xFF00704A),
+  ),
+  QuestStore(
+    name: "Watson's",
+    category: 'Beauty',
+    floorCode: '1F',
+    zone: 'West Wing',
+    reward: '+80 pts',
+    icon: Icons.spa_rounded,
+    accent: Color(0xFF0066CC),
+  ),
+  QuestStore(
     name: 'SEPHORA',
     category: 'Beauty',
     floorCode: '1F',
@@ -67,6 +98,15 @@ const questStores = <QuestStore>[
     accent: Color(0xFF111111),
   ),
   QuestStore(
+    name: 'Adidas',
+    category: 'Sports',
+    floorCode: '2F',
+    zone: 'East Wing',
+    reward: '+90 pts',
+    icon: Icons.sports_soccer_rounded,
+    accent: Color(0xFF000000),
+  ),
+  QuestStore(
     name: 'Uniqlo',
     category: 'Fashion',
     floorCode: '2F',
@@ -84,7 +124,29 @@ const questStores = <QuestStore>[
     icon: Icons.laptop_mac_rounded,
     accent: Color(0xFF555555),
   ),
+  QuestStore(
+    name: 'Samsung',
+    category: 'Tech',
+    floorCode: '3F',
+    zone: 'Tech Hub',
+    reward: '+110 pts',
+    icon: Icons.smartphone_rounded,
+    accent: Color(0xFF1428A0),
+  ),
+    QuestStore(
+    name: 'PowerHub',
+    category: 'Tech',
+    floorCode: '3F',
+    zone: 'Tech Hub',
+    reward: '+90 pts',
+    icon: Icons.power_rounded,
+    accent: kBlue,
+  ),
 ];
+
+/* ═══════════════════════════════════════════════════════════════
+   MAP DATA MODELS
+═══════════════════════════════════════════════════════════════ */
 
 class _Room {
   final Rect rect;
@@ -108,72 +170,257 @@ class _Marker {
   const _Marker(this.center, this.icon, this.label, this.color);
 }
 
-const _kMapW       = 360.0;
-const _kMapH       = 520.0;
+const _kMapW = 360.0;
+const _kMapH = 520.0;
 const _kRoomRadius = 14.0;
 
+/* ═══════════════════════════════════════════════════════════════
+   FLOOR DATA
+═══════════════════════════════════════════════════════════════ */
+
+// ── B1 ──
 const _b1Rooms = <_Room>[
-  _Room(Rect.fromLTWH(0,   0, 175, 215), 'Parking',    Color(0xFFEDEEF4), kMid),
-  _Room(Rect.fromLTWH(185, 0, 175, 215), 'Grocery',    Color(0xFFEBFAF2), kGreen),
-  _Room(Rect.fromLTWH(0, 240, 360, 280), 'Food Court', Color(0xFFFFF3F3), Color(0xFFDA291C)),
+  _Room(Rect.fromLTWH(0, 0, 175, 215), 'Parking', Color(0xFFEDEEF4), kMid),
+  _Room(Rect.fromLTWH(185, 0, 175, 215), 'Grocery', Color(0xFFEBFAF2), kGreen),
+  _Room(
+    Rect.fromLTWH(0, 240, 360, 280),
+    'Food Court',
+    Color(0xFFFFF3F3),
+    Color(0xFFDA291C),
+  ),
 ];
 const _b1StoreNodes = <_StoreNode>[
-  _StoreNode("McDonald's", Offset(180, 372)),
+  _StoreNode("McDonald's", Offset(120, 372)),
+  _StoreNode('Jollibee', Offset(248, 372)),
 ];
 const _b1Markers = <_Marker>[
-  _Marker(Offset(86,  215), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
+  _Marker(Offset(86, 215), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
   _Marker(Offset(274, 215), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
-  _Marker(Offset(180, 503), Icons.sensor_door_outlined,      'Entrance',  kGreen),
-  _Marker(Offset(58,  370), Icons.local_parking_outlined,    'Parking',   kMid),
+  _Marker(Offset(180, 503), Icons.sensor_door_outlined, 'Entrance', kGreen),
 ];
 
+// ── 1F ──
 const _1fRooms = <_Room>[
-  _Room(Rect.fromLTWH(0,   0, 105, 520), 'Services',    Color(0xFFF5F0FF), Color(0xFF9B59B6)),
-  _Room(Rect.fromLTWH(120, 0, 120, 520), 'Main Atrium', Color(0xFFE8F4FF), kBlue),
-  _Room(Rect.fromLTWH(255, 0, 105, 520), 'Beauty Zone', Color(0xFFFFF0F5), Color(0xFFB8003D)),
+  _Room(
+    Rect.fromLTWH(0, 0, 105, 520),
+    'West Wing',
+    Color(0xFFF0F5FF),
+    Color(0xFF0066CC),
+  ),
+  _Room(
+    Rect.fromLTWH(120, 0, 120, 520),
+    'Main Atrium',
+    Color(0xFFE8F4FF),
+    kBlue,
+  ),
+  _Room(
+    Rect.fromLTWH(255, 0, 105, 520),
+    'Beauty Zone',
+    Color(0xFFFFF0F5),
+    Color(0xFFB8003D),
+  ),
 ];
 const _1fStoreNodes = <_StoreNode>[
-  _StoreNode('SEPHORA', Offset(307, 260)),
+  _StoreNode("Watson's", Offset(52, 180)),
+  _StoreNode('Starbucks', Offset(180, 260)),
+  _StoreNode('SEPHORA', Offset(307, 340)),
 ];
 const _1fMarkers = <_Marker>[
   _Marker(Offset(112, 260), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
   _Marker(Offset(248, 260), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
-  _Marker(Offset(60,  503), Icons.sensor_door_outlined,      'Entrance',  kGreen),
-  _Marker(Offset(300, 503), Icons.sensor_door_outlined,      'Entrance',  kGreen),
+  _Marker(Offset(60, 503), Icons.sensor_door_outlined, 'Entrance', kGreen),
+  _Marker(Offset(300, 503), Icons.sensor_door_outlined, 'Entrance', kGreen),
 ];
 
-const _mapFloors = ['1F', 'B1'];
+// ── 2F ──
+const _2fRooms = <_Room>[
+  _Room(
+    Rect.fromLTWH(0, 0, 105, 520),
+    'West Wing',
+    Color(0xFFFFF5F5),
+    Color(0xFFCC0000),
+  ),
+  _Room(
+    Rect.fromLTWH(120, 160, 120, 200),
+    'Center Court',
+    Color(0xFFFFF8EC),
+    kYellow,
+  ),
+  _Room(
+    Rect.fromLTWH(255, 0, 105, 520),
+    'East Wing',
+    Color(0xFFF5F5F5),
+    Color(0xFF1A1A1A),
+  ),
+];
+const _2fStoreNodes = <_StoreNode>[
+  _StoreNode('Uniqlo', Offset(52, 260)),
+  _StoreNode('ZARA', Offset(307, 150)),
+  _StoreNode('NIKE', Offset(307, 290)),
+  _StoreNode('Adidas', Offset(307, 420)),
+];
+const _2fMarkers = <_Marker>[
+  _Marker(Offset(112, 260), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
+  _Marker(Offset(248, 260), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
+  _Marker(Offset(52, 503), Icons.wc, 'WC', kMid),
+  _Marker(Offset(308, 503), Icons.wc, 'WC', kMid),
+];
 
-final _floorRooms      = <String, List<_Room>>     {'B1': _b1Rooms,      '1F': _1fRooms};
-final _floorStoreNodes = <String, List<_StoreNode>>{'B1': _b1StoreNodes, '1F': _1fStoreNodes};
-final _floorMarkers    = <String, List<_Marker>>   {'B1': _b1Markers,    '1F': _1fMarkers};
+// ── 3F ──
+const _3fRooms = <_Room>[
+  _Room(
+    Rect.fromLTWH(0, 0, 230, 520),
+    'Tech Hub',
+    Color(0xFFF5F5F7),
+    Color(0xFF555555),
+  ),
+  _Room(
+    Rect.fromLTWH(245, 0, 115, 520),
+    'Entertainment',
+    Color(0xFFECF5FF),
+    kBlue,
+  ),
+];
+const _3fStoreNodes = <_StoreNode>[
+  _StoreNode('Apple Store', Offset(115, 200)),
+  _StoreNode('Samsung', Offset(115, 360)),
+  _StoreNode('PowerHub', Offset(115, 460)),
+];
+const _3fMarkers = <_Marker>[
+  _Marker(Offset(238, 260), Icons.swap_vert_circle_outlined, 'Escalator', kMid),
+  _Marker(Offset(52, 503), Icons.wc, 'WC', kMid),
+];
 
+/* ═══════════════════════════════════════════════════════════════
+   FLOOR LOOKUP MAPS
+═══════════════════════════════════════════════════════════════ */
+
+const _mapFloors = ['B1', '1F', '2F', '3F'];
+
+final _floorRooms = <String, List<_Room>>{
+  'B1': _b1Rooms,
+  '1F': _1fRooms,
+  '2F': _2fRooms,
+  '3F': _3fRooms,
+};
+
+final _floorStoreNodes = <String, List<_StoreNode>>{
+  'B1': _b1StoreNodes,
+  '1F': _1fStoreNodes,
+  '2F': _2fStoreNodes,
+  '3F': _3fStoreNodes,
+};
+
+final _floorMarkers = <String, List<_Marker>>{
+  'B1': _b1Markers,
+  '1F': _1fMarkers,
+  '2F': _2fMarkers,
+  '3F': _3fMarkers,
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   STORE ROUTES
+═══════════════════════════════════════════════════════════════ */
 
 const _storeRoutes = <String, List<Offset>>{
   "McDonald's": [
     Offset(180, 503),
-    Offset(180, 372),
+    Offset(180, 440),
+    Offset(120, 440),
+    Offset(120, 372),
+  ],
+  'Jollibee': [
+    Offset(180, 503),
+    Offset(180, 440),
+    Offset(248, 440),
+    Offset(248, 372),
+  ],
+  "Watson's": [
+    Offset(60, 503),
+    Offset(60, 440),
+    Offset(52, 440),
+    Offset(52, 180),
+  ],
+  'Starbucks': [
+    Offset(60, 503),
+    Offset(60, 480),
+    Offset(180, 480),
+    Offset(180, 260),
   ],
   'SEPHORA': [
-    Offset(60,  503),
-    Offset(60,  480),
+    Offset(60, 503),
+    Offset(60, 480),
+    Offset(248, 480),
+    Offset(248, 340),
+    Offset(307, 340),
+  ],
+  'Uniqlo': [
+    Offset(180, 503),
+    Offset(180, 480),
     Offset(112, 480),
     Offset(112, 260),
-    Offset(248, 260),
-    Offset(307, 260),
+    Offset(52, 260),
+  ],
+  'ZARA': [
+    Offset(180, 503),
+    Offset(180, 480),
+    Offset(248, 480),
+    Offset(248, 150),
+    Offset(307, 150),
+  ],
+  'NIKE': [
+    Offset(180, 503),
+    Offset(180, 480),
+    Offset(248, 480),
+    Offset(248, 290),
+    Offset(307, 290),
+  ],
+  'Adidas': [
+    Offset(180, 503),
+    Offset(180, 480),
+    Offset(248, 480),
+    Offset(248, 420),
+    Offset(307, 420),
+  ],
+  'Apple Store': [
+    Offset(180, 503),
+    Offset(180, 420),
+    Offset(238, 420),
+    Offset(238, 200),
+    Offset(115, 200),
+  ],
+  'Samsung': [
+    Offset(180, 503),
+    Offset(180, 420),
+    Offset(238, 420),
+    Offset(238, 360),
+    Offset(115, 360),
+  ],
+  'PowerHub': [
+    Offset(180, 503),
+    Offset(180, 420),
+    Offset(238, 420),
+    Offset(238, 460),
+    Offset(115, 460),
   ],
 };
 
+/* ═══════════════════════════════════════════════════════════════
+   MAP PAGE
+═══════════════════════════════════════════════════════════════ */
+
 class MapPage extends StatefulWidget {
-  final String? activeQuestStore;
+  final List<String> activeQuestStores;
   final void Function(String storeName) onQuestStart;
-  final VoidCallback onQuestCancel;
+  final void Function(String name)? onQuestCancel;
+  final void Function(String name)? onQuestDone;
 
   const MapPage({
     super.key,
-    this.activeQuestStore,
+    this.activeQuestStores = const [],
     required this.onQuestStart,
-    required this.onQuestCancel,
+    this.onQuestCancel,
+    this.onQuestDone,
   });
 
   @override
@@ -186,11 +433,13 @@ class _MapPageState extends State<MapPage> {
   @override
   void didUpdateWidget(MapPage old) {
     super.didUpdateWidget(old);
-    if (widget.activeQuestStore != old.activeQuestStore &&
-        widget.activeQuestStore != null) {
+    // Auto-switch floor to the first active quest store's floor
+    if (widget.activeQuestStores != old.activeQuestStores &&
+        widget.activeQuestStores.isNotEmpty) {
       try {
-        final store =
-            questStores.firstWhere((s) => s.name == widget.activeQuestStore);
+        final store = questStores.firstWhere(
+          (s) => s.name == widget.activeQuestStores.first,
+        );
         if (_mapFloors.contains(store.floorCode)) {
           setState(() => _selectedFloor = store.floorCode);
         }
@@ -198,13 +447,17 @@ class _MapPageState extends State<MapPage> {
     }
   }
 
-  QuestStore? get _activeStore {
-    if (widget.activeQuestStore == null) return null;
-    try {
-      return questStores.firstWhere((s) => s.name == widget.activeQuestStore);
-    } catch (_) {
-      return null;
-    }
+  List<QuestStore> get _activeStores {
+    return widget.activeQuestStores
+        .map((name) {
+          try {
+            return questStores.firstWhere((s) => s.name == name);
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<QuestStore>()
+        .toList();
   }
 
   @override
@@ -224,7 +477,7 @@ class _MapPageState extends State<MapPage> {
                     child: _Mall2DMap(
                       key: ValueKey(_selectedFloor),
                       floorCode: _selectedFloor,
-                      activeStoreName: widget.activeQuestStore,
+                      activeStoreNames: widget.activeQuestStores,
                       onStoreTap: widget.onQuestStart,
                     ),
                   ),
@@ -233,11 +486,7 @@ class _MapPageState extends State<MapPage> {
                 _buildQuestPanel(),
               ],
             ),
-            Positioned(
-              right: 10,
-              top: 68,
-              child: _buildFloatingSidebar(),
-            ),
+            Positioned(right: 10, top: 68, child: _buildFloatingSidebar()),
           ],
         ),
       ),
@@ -259,21 +508,21 @@ class _MapPageState extends State<MapPage> {
             ),
           ),
           const Spacer(),
-          if (widget.activeQuestStore != null)
+          if (widget.activeQuestStores.isNotEmpty)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: kGreen.withValues(alpha: 0.15),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.navigation_rounded, size: 14, color: kGreen),
-                  SizedBox(width: 4),
+                  const Icon(Icons.navigation_rounded, size: 14, color: kGreen),
+                  const SizedBox(width: 4),
                   Text(
-                    'Navigating',
-                    style: TextStyle(
+                    'Navigating (${widget.activeQuestStores.length})',
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: kGreen,
@@ -306,10 +555,11 @@ class _MapPageState extends State<MapPage> {
         children: [
           ..._mapFloors.map((floor) {
             final selected = _selectedFloor == floor;
-            final hasActiveQuest = widget.activeQuestStore != null &&
-                questStores.any((s) =>
-                    s.name == widget.activeQuestStore &&
-                    s.floorCode == floor);
+            final hasActiveQuest = questStores.any(
+              (s) =>
+                  widget.activeQuestStores.contains(s.name) &&
+                  s.floorCode == floor,
+            );
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 3),
               child: GestureDetector(
@@ -381,6 +631,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   Widget _buildQuestPanel() {
+    final stores = _activeStores;
     return Container(
       constraints: const BoxConstraints(maxHeight: 280),
       decoration: BoxDecoration(
@@ -411,7 +662,9 @@ class _MapPageState extends State<MapPage> {
             child: Row(
               children: [
                 Text(
-                  _activeStore != null ? 'Active Quest' : 'No Active Quest',
+                  stores.isNotEmpty
+                      ? 'Active Quests (${stores.length})'
+                      : 'No Active Quest',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
@@ -421,7 +674,7 @@ class _MapPageState extends State<MapPage> {
               ],
             ),
           ),
-          if (_activeStore == null)
+          if (stores.isEmpty)
             const Padding(
               padding: EdgeInsets.fromLTRB(20, 8, 20, 28),
               child: Text(
@@ -430,31 +683,110 @@ class _MapPageState extends State<MapPage> {
               ),
             )
           else
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-              child: _QuestRow(
-                store: _activeStore!,
-                isActive: true,
-                hasOtherActive: false,
-                onStart: () {},
-                onCancel: widget.onQuestCancel,
+            Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                itemCount: stores.length,
+                itemBuilder: (_, i) {
+                  final store = stores[i];
+                  return _QuestRow(
+                    store: store,
+                    isActive: true,
+                    hasOtherActive: false,
+                    onStart: () {},
+                    onCancel: () => widget.onQuestCancel?.call(store.name),
+                    onDone: () => _confirmDone(context, store),
+                  );
+                },
               ),
             ),
         ],
       ),
     );
   }
+
+void _confirmDone(BuildContext context, QuestStore store) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            const Icon(Icons.check_circle_rounded, color: kGreen, size: 20),
+            const SizedBox(width: 8),
+            const Text(
+              'Quest Complete?',
+              style: TextStyle(fontWeight: FontWeight.w800, color: kDark),
+            ),
+          ],
+        ),
+        content: Text(
+          'Mark "${store.name}" as done?',
+          style: const TextStyle(color: kMid),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(
+              'Not yet',
+              style: TextStyle(color: kMid, fontWeight: FontWeight.w600),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kGreen,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () {
+              // 1. Close the dialog
+              Navigator.pop(ctx);
+
+              // 2. Remove from active quests/map markers
+              widget.onQuestCancel?.call(store.name);
+
+              // 3. Provide feedback since we aren't switching screens anymore
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('"${store.name}" completed!'),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: kGreen,
+                ),
+              );
+
+              /* NOTE: widget.onQuestDone?.call(store.name) was removed 
+                to prevent the redirect to the Quest Log screen.
+              */
+            },
+            child: const Text(
+              'Done!',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   2D MALL MAP
+═══════════════════════════════════════════════════════════════ */
 
 class _Mall2DMap extends StatefulWidget {
   final String floorCode;
-  final String? activeStoreName;
+  final List<String> activeStoreNames;
   final void Function(String) onStoreTap;
 
   const _Mall2DMap({
     super.key,
     required this.floorCode,
-    required this.activeStoreName,
+    this.activeStoreNames = const [],
     required this.onStoreTap,
   });
 
@@ -467,16 +799,20 @@ class _Mall2DMapState extends State<_Mall2DMap>
   late final AnimationController _routeCtrl;
   late final Animation<double> _routeProgress;
 
-  List<Offset>? get _activeRoute {
-    final name = widget.activeStoreName;
-    if (name == null) return null;
-    try {
-      final store = questStores.firstWhere((s) => s.name == name);
-      if (store.floorCode != widget.floorCode) return null;
-    } catch (_) {
-      return null;
-    }
-    return _storeRoutes[name];
+  // Returns routes for all active stores on the current floor
+  List<List<Offset>> get _activeRoutes {
+    return widget.activeStoreNames
+        .where((name) {
+          try {
+            final store = questStores.firstWhere((s) => s.name == name);
+            return store.floorCode == widget.floorCode;
+          } catch (_) {
+            return false;
+          }
+        })
+        .map((name) => _storeRoutes[name] ?? <Offset>[])
+        .where((r) => r.isNotEmpty)
+        .toList();
   }
 
   @override
@@ -490,14 +826,16 @@ class _Mall2DMapState extends State<_Mall2DMap>
       parent: _routeCtrl,
       curve: Curves.easeInOut,
     );
-    if (_activeRoute != null) _routeCtrl.forward();
+    if (_activeRoutes.isNotEmpty) _routeCtrl.forward();
   }
 
   @override
   void didUpdateWidget(_Mall2DMap old) {
     super.didUpdateWidget(old);
-    final hadRoute = _routeForStore(old.activeStoreName, old.floorCode) != null;
-    final hasRoute = _activeRoute != null;
+    final hadRoute = old.activeStoreNames.any(
+      (name) => _routeForStore(name, old.floorCode) != null,
+    );
+    final hasRoute = _activeRoutes.isNotEmpty;
     if (!hadRoute && hasRoute) {
       _routeCtrl.forward(from: 0);
     } else if (hadRoute && !hasRoute) {
@@ -524,10 +862,10 @@ class _Mall2DMapState extends State<_Mall2DMap>
 
   @override
   Widget build(BuildContext context) {
-    final rooms   = _floorRooms[widget.floorCode]      ?? const [];
-    final nodes   = _floorStoreNodes[widget.floorCode] ?? const [];
-    final markers = _floorMarkers[widget.floorCode]    ?? const [];
-    final route   = _activeRoute;
+    final rooms = _floorRooms[widget.floorCode] ?? const <_Room>[];
+    final nodes = _floorStoreNodes[widget.floorCode] ?? const <_StoreNode>[];
+    final markers = _floorMarkers[widget.floorCode] ?? const <_Marker>[];
+    final routes = _activeRoutes;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(26),
@@ -565,8 +903,8 @@ class _Mall2DMapState extends State<_Mall2DMap>
                         size: const Size(_kMapW, _kMapH),
                         painter: _RoomPainter(rooms),
                       ),
-                      if (route != null)
-                        Positioned.fill(
+                      ...routes.map(
+                        (route) => Positioned.fill(
                           child: AnimatedBuilder(
                             animation: _routeProgress,
                             builder: (_, _) => CustomPaint(
@@ -577,10 +915,11 @@ class _Mall2DMapState extends State<_Mall2DMap>
                             ),
                           ),
                         ),
-                      if (route != null)
+                      ),
+                      if (routes.isNotEmpty)
                         Positioned(
-                          left: route.first.dx - 16,
-                          top:  route.first.dy - 16,
+                          left: routes.first.first.dx - 16,
+                          top: routes.first.first.dy - 16,
                           child: const _YouAreHereDot(),
                         ),
                       ...markers.map(_buildMarker),
@@ -591,12 +930,14 @@ class _Mall2DMapState extends State<_Mall2DMap>
                         );
                         return Positioned(
                           left: n.center.dx - 24,
-                          top:  n.center.dy - 24,
+                          top: n.center.dy - 24,
                           child: GestureDetector(
                             onTap: () => widget.onStoreTap(store.name),
                             child: _StorePin2D(
                               store: store,
-                              isActive: store.name == widget.activeStoreName,
+                              isActive: widget.activeStoreNames.contains(
+                                store.name,
+                              ),
                             ),
                           ),
                         );
@@ -610,12 +951,15 @@ class _Mall2DMapState extends State<_Mall2DMap>
                 ),
               ),
             ),
+            // Floor label
             Positioned(
               left: 14,
               bottom: 14,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: kDark.withValues(alpha: 0.75),
                   borderRadius: BorderRadius.circular(10),
@@ -631,12 +975,12 @@ class _Mall2DMapState extends State<_Mall2DMap>
                 ),
               ),
             ),
+            // Hint
             Positioned(
               right: 14,
               bottom: 14,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.30),
                   borderRadius: BorderRadius.circular(10),
@@ -667,7 +1011,7 @@ class _Mall2DMapState extends State<_Mall2DMap>
   Widget _buildMarker(_Marker m) {
     return Positioned(
       left: m.center.dx - 13,
-      top:  m.center.dy - 13,
+      top: m.center.dy - 13,
       child: Tooltip(
         message: m.label,
         child: Container(
@@ -677,16 +1021,16 @@ class _Mall2DMapState extends State<_Mall2DMap>
             color: Colors.white.withValues(alpha: 0.70),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            m.icon,
-            size: 16,
-            color: m.color.withValues(alpha: 0.70),
-          ),
+          child: Icon(m.icon, size: 16, color: m.color.withValues(alpha: 0.70)),
         ),
       ),
     );
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROUTE PAINTER
+═══════════════════════════════════════════════════════════════ */
 
 class _RoutePainter extends CustomPainter {
   final List<Offset> waypoints;
@@ -703,45 +1047,53 @@ class _RoutePainter extends CustomPainter {
       full.lineTo(waypoints[i].dx, waypoints[i].dy);
     }
 
-    final metric   = full.computeMetrics().first;
-    final drawLen  = metric.length * progress;
+    final metric = full.computeMetrics().first;
+    final drawLen = metric.length * progress;
     final revealed = metric.extractPath(0, drawLen);
 
     canvas.drawPath(
       revealed,
       Paint()
-        ..color       = kBlue.withValues(alpha: 0.18)
-        ..style       = PaintingStyle.stroke
+        ..color = kBlue.withValues(alpha: 0.18)
+        ..style = PaintingStyle.stroke
         ..strokeWidth = 14
-        ..strokeCap   = StrokeCap.round
-        ..strokeJoin  = StrokeJoin.round,
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round,
     );
 
     _drawDashed(
-      canvas, revealed,
-      dashLen: 12, gapLen: 7,
+      canvas,
+      revealed,
+      dashLen: 12,
+      gapLen: 7,
       paint: Paint()
-        ..color       = kBlue
-        ..style       = PaintingStyle.stroke
+        ..color = kBlue
+        ..style = PaintingStyle.stroke
         ..strokeWidth = 4
-        ..strokeCap   = StrokeCap.round,
+        ..strokeCap = StrokeCap.round,
     );
 
     _drawDashed(
-      canvas, revealed,
-      dashLen: 12, gapLen: 7,
+      canvas,
+      revealed,
+      dashLen: 12,
+      gapLen: 7,
       paint: Paint()
-        ..color       = Colors.white.withValues(alpha: 0.55)
-        ..style       = PaintingStyle.stroke
+        ..color = Colors.white.withValues(alpha: 0.55)
+        ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
-        ..strokeCap   = StrokeCap.round,
+        ..strokeCap = StrokeCap.round,
     );
 
     if (progress > 0.95) {
       final dest = waypoints.last;
-      canvas.drawCircle(dest, 7,   Paint()..color = kBlue.withValues(alpha: 0.25));
+      canvas.drawCircle(
+        dest,
+        7,
+        Paint()..color = kBlue.withValues(alpha: 0.25),
+      );
       canvas.drawCircle(dest, 4.5, Paint()..color = kBlue);
-      canvas.drawCircle(dest, 2,   Paint()..color = Colors.white);
+      canvas.drawCircle(dest, 2, Paint()..color = Colors.white);
     }
   }
 
@@ -766,6 +1118,10 @@ class _RoutePainter extends CustomPainter {
   bool shouldRepaint(_RoutePainter old) =>
       old.progress != progress || old.waypoints != waypoints;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   YOU ARE HERE DOT
+═══════════════════════════════════════════════════════════════ */
 
 class _YouAreHereDot extends StatefulWidget {
   const _YouAreHereDot();
@@ -811,23 +1167,24 @@ class _YouAreHereDotState extends State<_YouAreHereDot>
 
 class _YouAreHerePainter extends CustomPainter {
   final double pulse;
-
   const _YouAreHerePainter(this.pulse);
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-
     canvas.drawCircle(
       center,
       8 + pulse * 8,
       Paint()
-        ..color       = kBlue.withValues(alpha: (1 - pulse) * 0.35)
-        ..style       = PaintingStyle.stroke
+        ..color = kBlue.withValues(alpha: (1 - pulse) * 0.35)
+        ..style = PaintingStyle.stroke
         ..strokeWidth = 2,
     );
-
-    canvas.drawCircle(center, 7.5, Paint()..color = kBlue.withValues(alpha: 0.20));
+    canvas.drawCircle(
+      center,
+      7.5,
+      Paint()..color = kBlue.withValues(alpha: 0.20),
+    );
     canvas.drawCircle(center, 5.5, Paint()..color = kBlue);
     canvas.drawCircle(center, 2.5, Paint()..color = Colors.white);
   }
@@ -835,6 +1192,10 @@ class _YouAreHerePainter extends CustomPainter {
   @override
   bool shouldRepaint(_YouAreHerePainter old) => old.pulse != pulse;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ROOM PAINTER
+═══════════════════════════════════════════════════════════════ */
 
 class _RoomPainter extends CustomPainter {
   final List<_Room> rooms;
@@ -857,7 +1218,7 @@ class _RoomPainter extends CustomPainter {
             room.accent.b.toInt(),
             0.20,
           )
-          ..style       = PaintingStyle.stroke
+          ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5,
       );
       (TextPainter(
@@ -876,14 +1237,20 @@ class _RoomPainter extends CustomPainter {
           ),
         ),
         textDirection: TextDirection.ltr,
-      )..layout(maxWidth: room.rect.width - 16))
-          .paint(canvas, Offset(room.rect.left + 9, room.rect.top + 9));
+      )..layout(maxWidth: room.rect.width - 16)).paint(
+        canvas,
+        Offset(room.rect.left + 9, room.rect.top + 9),
+      );
     }
   }
 
   @override
   bool shouldRepaint(_RoomPainter old) => old.rooms != rooms;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   BORDER PAINTER
+═══════════════════════════════════════════════════════════════ */
 
 class _BorderPainter extends CustomPainter {
   @override
@@ -894,8 +1261,8 @@ class _BorderPainter extends CustomPainter {
         const Radius.circular(20),
       ),
       Paint()
-        ..color       = const Color(0xFFADB8CF)
-        ..style       = PaintingStyle.stroke
+        ..color = const Color(0xFFADB8CF)
+        ..style = PaintingStyle.stroke
         ..strokeWidth = 2.5,
     );
   }
@@ -903,6 +1270,10 @@ class _BorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(_BorderPainter old) => false;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   STORE PIN 2D
+═══════════════════════════════════════════════════════════════ */
 
 class _StorePin2D extends StatefulWidget {
   final QuestStore store;
@@ -926,9 +1297,10 @@ class _StorePin2DState extends State<_StorePin2D>
       duration: const Duration(milliseconds: 900),
       vsync: this,
     );
-    _pulse = Tween<double>(begin: 1.0, end: 1.10).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
-    );
+    _pulse = Tween<double>(
+      begin: 1.0,
+      end: 1.10,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
     if (widget.isActive) _ctrl.repeat(reverse: true);
   }
 
@@ -938,7 +1310,9 @@ class _StorePin2DState extends State<_StorePin2D>
     if (widget.isActive && !old.isActive) {
       _ctrl.repeat(reverse: true);
     } else if (!widget.isActive && old.isActive) {
-      _ctrl..stop()..reset();
+      _ctrl
+        ..stop()
+        ..reset();
     }
   }
 
@@ -950,15 +1324,13 @@ class _StorePin2DState extends State<_StorePin2D>
 
   @override
   Widget build(BuildContext context) {
-    final s      = widget.store;
+    final s = widget.store;
     final active = widget.isActive;
 
     return AnimatedBuilder(
       animation: _pulse,
-      builder: (_, child) => Transform.scale(
-        scale: active ? _pulse.value : 1.0,
-        child: child,
-      ),
+      builder: (_, child) =>
+          Transform.scale(scale: active ? _pulse.value : 1.0, child: child),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -1011,6 +1383,10 @@ class _StorePin2DState extends State<_StorePin2D>
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   COMPASS WIDGET
+═══════════════════════════════════════════════════════════════ */
+
 class _CompassWidget extends StatelessWidget {
   const _CompassWidget();
 
@@ -1050,16 +1426,22 @@ class _CompassPainter extends CustomPainter {
       text: const TextSpan(
         text: 'N',
         style: TextStyle(
-            fontSize: 7, fontWeight: FontWeight.w900, color: kBlue),
+          fontSize: 7,
+          fontWeight: FontWeight.w900,
+          color: kBlue,
+        ),
       ),
       textDirection: TextDirection.ltr,
-    )..layout())
-        .paint(canvas, Offset(cx - 3.5, cy - 21));
+    )..layout()).paint(canvas, Offset(cx - 3.5, cy - 21));
   }
 
   @override
   bool shouldRepaint(_CompassPainter old) => false;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   QUEST ROW
+═══════════════════════════════════════════════════════════════ */
 
 class _QuestRow extends StatelessWidget {
   final QuestStore store;
@@ -1067,6 +1449,7 @@ class _QuestRow extends StatelessWidget {
   final bool hasOtherActive;
   final VoidCallback onStart;
   final VoidCallback onCancel;
+  final VoidCallback onDone;
 
   const _QuestRow({
     required this.store,
@@ -1074,6 +1457,7 @@ class _QuestRow extends StatelessWidget {
     required this.hasOtherActive,
     required this.onStart,
     required this.onCancel,
+    required this.onDone,
   });
 
   @override
@@ -1086,9 +1470,7 @@ class _QuestRow extends StatelessWidget {
         color: isActive ? kGreen.withValues(alpha: 0.08) : kBg,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: isActive
-              ? kGreen.withValues(alpha: 0.4)
-              : Colors.transparent,
+          color: isActive ? kGreen.withValues(alpha: 0.4) : Colors.transparent,
         ),
       ),
       child: Row(
@@ -1124,31 +1506,64 @@ class _QuestRow extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           if (isActive)
-            GestureDetector(
-              onTap: onCancel,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 7),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFF5555).withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFFFF5555),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Done button
+                GestureDetector(
+                  onTap: onDone,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kGreen.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Done',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: kGreen,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(width: 6),
+                // Cancel button
+                GestureDetector(
+                  onTap: onCancel,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFF5555).withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFF5555),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             )
           else if (!hasOtherActive)
             GestureDetector(
               onTap: onStart,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 7),
+                  horizontal: 12,
+                  vertical: 7,
+                ),
                 decoration: BoxDecoration(
                   color: kBlue,
                   borderRadius: BorderRadius.circular(12),

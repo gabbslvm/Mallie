@@ -23,6 +23,7 @@ const kCard = Color(0xFFFFFFFF);
 const kDark = Color(0xFF1A2340);
 const kMid = Color(0xFF6B7A99);
 const kLight = Color(0xFFB0BAD3);
+const kGreen = Color(0xFF55C08A);
 
 class MallieHomeScreen extends StatelessWidget {
   final String userName;
@@ -137,9 +138,10 @@ class _MallieHomePageState extends State<MallieHomePage>
   int _selectedTab = 0;
   int _selectedFilter = 0;
   String _searchQuery = '';
-  String? _activeQuestStore;
+  List<String> _activeQuestStores = [];
   bool _notificationsEnabled = true;
   String? _profileHighlight;
+  late final QuestPage _questPage;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchCtrl = TextEditingController();
 
@@ -371,11 +373,25 @@ class _MallieHomePageState extends State<MallieHomePage>
   List<Widget?> get _pages => [
     null,
     MapPage(
-      activeQuestStore: _activeQuestStore,
-      onQuestStart: (name) => setState(() => _activeQuestStore = name),
-      onQuestCancel: () => setState(() => _activeQuestStore = null),
+      activeQuestStores: _activeQuestStores,
+      onQuestStart: (name) {
+        setState(() {
+          if (!_activeQuestStores.contains(name)) {
+            _activeQuestStores.add(name);
+          }
+        });
+      },
+      onQuestCancel: (name) {
+        setState(() => _activeQuestStores.remove(name));
+      },
+      onQuestDone: (name) {
+        setState(() {
+          _activeQuestStores.remove(name);
+          _selectedTab = 2; // switch to Quest tab
+        });
+      },
     ),
-    const QuestPage(),
+    _questPage,
     const WalletPage(),
     ProfilePage(
       userName: widget.userName,
@@ -435,6 +451,19 @@ class _MallieHomePageState extends State<MallieHomePage>
       begin: 0.96,
       end: 1.04,
     ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
+    _questPage = QuestPage(
+  onGoToMap: () => setState(() => _selectedTab = 1),
+  onNavigateTo: (name) {
+    setState(() {
+      if (!_activeQuestStores.contains(name)) {
+        _activeQuestStores.add(name);
+      }
+    });
+  },
+  onActiveStoresChanged: (stores) {
+    setState(() => _activeQuestStores = List.from(stores));
+  },
+);
   }
 
   @override
@@ -480,6 +509,62 @@ class _MallieHomePageState extends State<MallieHomePage>
               'Log Out',
               style: TextStyle(
                 color: Color(0xFFFF5555),
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showNavigateDialog(String storeName) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            const Icon(Icons.navigation_rounded, color: kBlue, size: 20),
+            const SizedBox(width: 8),
+            const Text(
+              'Navigate',
+              style: TextStyle(fontWeight: FontWeight.w800, color: kDark),
+            ),
+          ],
+        ),
+        content: Text(
+          'Start navigation to $storeName?',
+          style: const TextStyle(color: kMid),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: kMid, fontWeight: FontWeight.w600),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kBlue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () {
+              Navigator.pop(ctx);
+              setState(() {
+                if (!_activeQuestStores.contains(storeName)) {
+                  _activeQuestStores.add(storeName);
+                }
+                _selectedTab = 1;
+              });
+            },
+            child: const Text(
+              'Navigate',
+              style: TextStyle(
+                color: Colors.white,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -652,10 +737,21 @@ class _MallieHomePageState extends State<MallieHomePage>
                               ),
                             )
                           : SliverGrid(
-                              delegate: SliverChildBuilderDelegate(
-                                (_, i) => _StoreCard(store: _filteredStores[i]),
-                                childCount: _filteredStores.length,
-                              ),
+                              delegate: SliverChildBuilderDelegate((_, i) {
+                                final store = _filteredStores[i];
+                                final isActive = _activeQuestStores.contains(
+                                  store.name,
+                                );
+                                return _StoreCard(
+                                  store: store,
+                                  isActive: isActive,
+                                  onNavigate: () =>
+                                      _showNavigateDialog(store.name),
+                                  onCancel: () => setState(
+                                    () => _activeQuestStores.remove(store.name),
+                                  ),
+                                );
+                              }, childCount: _filteredStores.length),
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -1342,7 +1438,16 @@ class _NearbyRow extends StatelessWidget {
 
 class _StoreCard extends StatelessWidget {
   final _StoreItem store;
-  const _StoreCard({required this.store});
+  final bool isActive;
+  final VoidCallback onNavigate;
+  final VoidCallback onCancel;
+
+  const _StoreCard({
+    required this.store,
+    required this.isActive,
+    required this.onNavigate,
+    required this.onCancel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1401,11 +1506,25 @@ class _StoreCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                // Active indicator
+                if (isActive)
+                  Positioned(
+                    top: 10,
+                    left: 10,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: kGreen,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1436,7 +1555,7 @@ class _StoreCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     const Icon(Icons.star_rounded, size: 13, color: kYellow),
@@ -1459,6 +1578,48 @@ class _StoreCard extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 8),
+                // Navigate / Cancel button
+                GestureDetector(
+                  onTap: isActive ? onCancel : onNavigate,
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 7),
+                    decoration: BoxDecoration(
+                      color: isActive
+                          ? const Color(0xFFFF5555).withValues(alpha: 0.10)
+                          : kBlue.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: isActive
+                            ? const Color(0xFFFF5555).withValues(alpha: 0.3)
+                            : kBlue.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          isActive
+                              ? Icons.close_rounded
+                              : Icons.navigation_rounded,
+                          size: 12,
+                          color: isActive ? const Color(0xFFFF5555) : kBlue,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          isActive ? 'Cancel' : 'Navigate',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: isActive ? const Color(0xFFFF5555) : kBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
