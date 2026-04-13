@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_screen.dart';
+import 'dart:async';
 
 const kBlue = Color(0xFF4D96FF);
 const kYellow = Color(0xFFF0B552);
@@ -14,11 +15,13 @@ const kGreen = Color(0xFF55C08A);
 class ProfilePage extends StatefulWidget {
   final String userName;
   final String userEmail;
+  final String? highlightItem;
 
   const ProfilePage({
     super.key,
     this.userName = 'Mallie User',
     this.userEmail = 'user@email.com',
+    this.highlightItem,
   });
 
   @override
@@ -28,17 +31,43 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late String userName;
   late String userEmail;
+  final ScrollController _scrollCtrl = ScrollController();
+  final GlobalKey _accountSectionKey = GlobalKey();
   bool _notificationsEnabled = true;
+  String? _highlight;
   final List<String> _savedLocations = [
     'SM Mall of Asia',
     'Robinsons Galleria',
   ];
 
+@override
+void initState() {
+  super.initState();
+  userName = widget.userName;
+  userEmail = widget.userEmail;
+  _highlight = widget.highlightItem;
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (_highlight != null) {
+      final ctx = _accountSectionKey.currentContext;
+      if (ctx != null) {
+        Scrollable.ensureVisible(
+          ctx,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          alignment: 0.3,
+        );
+      }
+      Timer(const Duration(milliseconds: 500), () {
+        if (mounted) setState(() => _highlight = null);
+      });
+    }
+  });
+}
+
   @override
-  void initState() {
-    super.initState();
-    userName = widget.userName;
-    userEmail = widget.userEmail;
+  void dispose() {
+    _scrollCtrl.dispose();
+    super.dispose();
   }
 
   static const _badges = [
@@ -492,8 +521,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
 
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
+              key: _accountSectionKey,
               padding: EdgeInsets.fromLTRB(20, 24, 20, 0),
               child: Text(
                 'Account',
@@ -532,7 +562,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         GestureDetector(
                           onTap: () => _handleMenuTap(context, label),
-                          child: Padding(
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 400),
+                            color: _highlight == label
+                                ? kBlue.withValues(alpha: 0.07)
+                                : Colors.transparent,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 13,

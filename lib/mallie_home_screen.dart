@@ -139,6 +139,7 @@ class _MallieHomePageState extends State<MallieHomePage>
   String _searchQuery = '';
   String? _activeQuestStore;
   bool _notificationsEnabled = true;
+  String? _profileHighlight;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchCtrl = TextEditingController();
 
@@ -211,28 +212,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       accent: Color(0xFFCC0000),
       bg: Color(0xFFFFF5F5),
     ),
-    _StoreItem(
-      name: 'H&M',
-      category: 'Fashion',
-      floor: '2F · North Wing',
-      price: '\$',
-      rating: 4.3,
-      discount: '15% OFF',
-      icon: Icons.shopping_bag_rounded,
-      accent: Color(0xFFE50010),
-      bg: Color(0xFFFFF3F3),
-    ),
-    _StoreItem(
-      name: "Levi's",
-      category: 'Fashion',
-      floor: '3F · East Wing',
-      price: '\$\$',
-      rating: 4.2,
-      discount: '5% OFF',
-      icon: Icons.person_rounded,
-      accent: Color(0xFF1A3A6B),
-      bg: Color(0xFFEEF3FF),
-    ),
     // Food
     _StoreItem(
       name: "McDonald's",
@@ -267,17 +246,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       accent: Color(0xFF00704A),
       bg: Color(0xFFEFFFF6),
     ),
-    _StoreItem(
-      name: 'Manam',
-      category: 'Food',
-      floor: '3F · Dining',
-      price: '\$\$',
-      rating: 4.4,
-      discount: '10% OFF',
-      icon: Icons.set_meal_rounded,
-      accent: Color(0xFFE63946),
-      bg: Color(0xFFFFF2F2),
-    ),
     // Tech
     _StoreItem(
       name: 'Apple Store',
@@ -300,17 +268,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       icon: Icons.smartphone_rounded,
       accent: Color(0xFF1428A0),
       bg: Color(0xFFEEF1FF),
-    ),
-    _StoreItem(
-      name: 'Huawei',
-      category: 'Tech',
-      floor: '3F · Tech Hub',
-      price: '\$\$',
-      rating: 4.3,
-      discount: 'Free Case',
-      icon: Icons.devices_rounded,
-      accent: Color(0xFFCF0A2C),
-      bg: Color(0xFFFFF0F2),
     ),
     // Beauty
     _StoreItem(
@@ -335,17 +292,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       accent: Color(0xFF0066CC),
       bg: Color(0xFFEEF5FF),
     ),
-    _StoreItem(
-      name: 'The Face Shop',
-      category: 'Beauty',
-      floor: '2F · North Wing',
-      price: '\$\$',
-      rating: 4.5,
-      discount: '20% OFF',
-      icon: Icons.face_rounded,
-      accent: Color(0xFF4A7C59),
-      bg: Color(0xFFEEFFF4),
-    ),
     // Sports
     _StoreItem(
       name: 'NIKE',
@@ -368,144 +314,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       icon: Icons.sports_soccer_rounded,
       accent: Color(0xFF000000),
       bg: Color(0xFFF8F8F8),
-    ),
-    // Home
-    _StoreItem(
-      name: 'IKEA',
-      category: 'Home',
-      floor: '4F · Home Hub',
-      price: '\$\$',
-      rating: 4.6,
-      discount: '10% OFF',
-      icon: Icons.chair_rounded,
-      accent: Color(0xFF003087),
-      bg: Color(0xFFEEF2FF),
-    ),
-    _StoreItem(
-      name: 'SM Home',
-      category: 'Home',
-      floor: '4F · Home Hub',
-      price: '\$',
-      rating: 4.2,
-      discount: '5% OFF',
-      icon: Icons.home_rounded,
-      accent: Color(0xFF005DAA),
-      bg: Color(0xFFEEF5FF),
-    ),
-    // Wellness
-    _StoreItem(
-      name: 'Zen Spa',
-      category: 'Wellness',
-      floor: '5F · Wellness',
-      price: '\$\$\$',
-      rating: 4.8,
-      discount: '10% OFF',
-      icon: Icons.self_improvement_rounded,
-      accent: Color(0xFF6B9E78),
-      bg: Color(0xFFEEFFF4),
-    ),
-    _StoreItem(
-      name: 'Healthy Options',
-      category: 'Wellness',
-      floor: '1F · West Wing',
-      price: '\$\$',
-      rating: 4.5,
-      discount: 'Free Consult',
-      icon: Icons.local_florist_rounded,
-      accent: Color(0xFF4CAF50),
-      bg: Color(0xFFF0FFF0),
-    ),
-    // Entertainment
-    _StoreItem(
-      name: 'SM Cinema',
-      category: 'Entertainment',
-      floor: '5F · Cinema',
-      price: '\$\$',
-      rating: 4.6,
-      discount: '2 for 1 Tues',
-      icon: Icons.movie_rounded,
-      accent: Color(0xFF222222),
-      bg: Color(0xFFF5F5F5),
-    ),
-    _StoreItem(
-      name: 'TimeZone',
-      category: 'Entertainment',
-      floor: '4F · Arcade',
-      price: '\$',
-      rating: 4.4,
-      discount: 'Bonus Credits',
-      icon: Icons.videogame_asset_rounded,
-      accent: Color(0xFF6B3FA0),
-      bg: Color(0xFFF5EEFF),
-    ),
-    // Books
-    _StoreItem(
-      name: 'National Book Store',
-      category: 'Books',
-      floor: '2F · South Wing',
-      price: '\$',
-      rating: 4.4,
-      discount: '10% OFF',
-      icon: Icons.menu_book_rounded,
-      accent: Color(0xFFD32F2F),
-      bg: Color(0xFFFFF3F3),
-    ),
-    _StoreItem(
-      name: 'Fully Booked',
-      category: 'Books',
-      floor: '3F · South Wing',
-      price: '\$\$',
-      rating: 4.7,
-      discount: '5% OFF',
-      icon: Icons.book_rounded,
-      accent: Color(0xFF1565C0),
-      bg: Color(0xFFEEF4FF),
-    ),
-    // Toys
-    _StoreItem(
-      name: 'Toys R Us',
-      category: 'Toys',
-      floor: '3F · Kids Zone',
-      price: '\$\$',
-      rating: 4.3,
-      discount: '20% OFF',
-      icon: Icons.toys_rounded,
-      accent: Color(0xFFE53935),
-      bg: Color(0xFFFFF3F3),
-    ),
-    _StoreItem(
-      name: "Kidzooona",
-      category: 'Toys',
-      floor: '3F · Kids Zone',
-      price: '\$\$\$',
-      rating: 4.6,
-      discount: 'Free Gift Wrap',
-      icon: Icons.extension_rounded,
-      accent: Color(0xFFD32F2F),
-      bg: Color(0xFFFFF5F5),
-    ),
-    // Pets
-    _StoreItem(
-      name: 'Pet Express',
-      category: 'Pets',
-      floor: '1F · East Wing',
-      price: '\$\$',
-      rating: 4.5,
-      discount: '10% OFF',
-      icon: Icons.pets_rounded,
-      accent: Color(0xFF6D4C41),
-      bg: Color(0xFFFFF8F6),
-    ),
-    _StoreItem(
-      name: 'Bow and Wow',
-      category: 'Pets',
-      floor: '1F · East Wing',
-      price: '\$',
-      rating: 4.4,
-      discount: 'Free Treats',
-      icon: Icons.cruelty_free_rounded,
-      accent: Color(0xFF795548),
-      bg: Color(0xFFFFF3EE),
     ),
   ];
 
@@ -569,7 +377,11 @@ class _MallieHomePageState extends State<MallieHomePage>
     ),
     const QuestPage(),
     const WalletPage(),
-    ProfilePage(userName: widget.userName, userEmail: widget.userEmail),
+    ProfilePage(
+      userName: widget.userName,
+      userEmail: widget.userEmail,
+      highlightItem: _profileHighlight,
+    ),
   ];
 
   List<(String, String, Color)> get _visibleCategories {
@@ -923,12 +735,24 @@ class _MallieHomePageState extends State<MallieHomePage>
           ListTile(
             leading: const Icon(Icons.help_outline),
             title: const Text('Help & Support'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              setState(() {
+                _selectedTab = 4;
+                _profileHighlight = 'Help & Support';
+              });
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Account Settings'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              setState(() {
+                _selectedTab = 4;
+                _profileHighlight = null;
+              });
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout, color: Color(0xFFFF5555)),
@@ -1213,7 +1037,7 @@ class _MallieHomePageState extends State<MallieHomePage>
               GestureDetector(
                 onTap: onSeeAll,
                 child: Text(
-                  seeAllLabel ?? 'See all',
+                  seeAllLabel ?? 'Clear all',
                   style: const TextStyle(
                     fontSize: 12,
                     color: kBlue,
