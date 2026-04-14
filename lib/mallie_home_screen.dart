@@ -139,9 +139,9 @@ class _MallieHomePageState extends State<MallieHomePage>
   int _selectedFilter = 0;
   String _searchQuery = '';
   List<String> _activeQuestStores = [];
+  List<String> _doneQuests = [];
   bool _notificationsEnabled = true;
   String? _profileHighlight;
-  late final QuestPage _questPage;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchCtrl = TextEditingController();
 
@@ -387,11 +387,26 @@ class _MallieHomePageState extends State<MallieHomePage>
       onQuestDone: (name) {
         setState(() {
           _activeQuestStores.remove(name);
-          _selectedTab = 2; // switch to Quest tab
+          if (!_doneQuests.contains(name)) {
+            _doneQuests = [..._doneQuests, name];
+          }
         });
       },
     ),
-    _questPage,
+    QuestPage(
+      externalDoneQuests: _doneQuests,
+      onGoToMap: () => setState(() => _selectedTab = 1),
+      onNavigateTo: (name) {
+        setState(() {
+          if (!_activeQuestStores.contains(name)) {
+            _activeQuestStores.add(name);
+          }
+        });
+      },
+      onActiveStoresChanged: (stores) {
+        setState(() => _activeQuestStores = List.from(stores));
+      },
+    ),
     const WalletPage(),
     ProfilePage(
       userName: widget.userName,
@@ -451,19 +466,6 @@ class _MallieHomePageState extends State<MallieHomePage>
       begin: 0.96,
       end: 1.04,
     ).animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
-    _questPage = QuestPage(
-  onGoToMap: () => setState(() => _selectedTab = 1),
-  onNavigateTo: (name) {
-    setState(() {
-      if (!_activeQuestStores.contains(name)) {
-        _activeQuestStores.add(name);
-      }
-    });
-  },
-  onActiveStoresChanged: (stores) {
-    setState(() => _activeQuestStores = List.from(stores));
-  },
-);
   }
 
   @override
@@ -1506,7 +1508,6 @@ class _StoreCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Active indicator
                 if (isActive)
                   Positioned(
                     top: 10,
@@ -1580,7 +1581,6 @@ class _StoreCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                // Navigate / Cancel button
                 GestureDetector(
                   onTap: isActive ? onCancel : onNavigate,
                   child: AnimatedContainer(

@@ -10,10 +10,6 @@ const kLight = Color(0xFFB0BAD3);
 const kGreen = Color(0xFF55C08A);
 const kRed = Color(0xFFFF5555);
 
-/* ═══════════════════════════════════════════════════════════════
-   QUEST STOP MODEL
-═══════════════════════════════════════════════════════════════ */
-
 class QuestStop {
   int number;
   String name;
@@ -29,10 +25,6 @@ class QuestStop {
     required this.color,
   });
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   MALL DESTINATIONS (text-based, for add destination picker)
-═══════════════════════════════════════════════════════════════ */
 
 class _MallDestination {
   final String name;
@@ -64,10 +56,6 @@ const _mallDestinations = <_MallDestination>[
   _MallDestination(name: 'Samsung',     floor: '3F', zone: 'Tech Hub',     accent: Color(0xFF1428A0), icon: Icons.smartphone_rounded),
   _MallDestination(name: 'PowerHub',    floor: '3F', zone: 'Tech Hub',     accent: kBlue,             icon: Icons.power_rounded),
 ];
-
-/* ═══════════════════════════════════════════════════════════════
-   QUEST PAGE
-═══════════════════════════════════════════════════════════════ */
 
 class QuestPage extends StatefulWidget {
   final VoidCallback? onGoToMap;
@@ -106,43 +94,34 @@ class _QuestPageState extends State<QuestPage>
     _trophyAnim = Tween<double>(begin: -4, end: 4).animate(
       CurvedAnimation(parent: _trophyCtrl, curve: Curves.easeInOut),
     );
-    _syncFromExternal();
   }
 
-@override
-  void didUpdateWidget(QuestPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.externalDoneQuests != oldWidget.externalDoneQuests) {
-      _syncFromExternal();
-    }
-  }
-
-  void _syncFromExternal() {
-    bool changed = false;
-    for (var name in widget.externalDoneQuests) {
-      for (var stop in _stops) {
-        if (stop.name == name && !stop.done) {
-          stop.done = true;
-          changed = true;
-        }
-      }
-    }
-    if (changed) setState(() {});
-  }
   @override
   void dispose() {
     _trophyCtrl.dispose();
     super.dispose();
   }
 
-  /* ── RENUMBER stops after mutation ── */
+
+@override
+void didUpdateWidget(QuestPage old) {
+  super.didUpdateWidget(old);
+  if (widget.externalDoneQuests != old.externalDoneQuests) {
+    for (final name in widget.externalDoneQuests) {
+      for (final stop in _stops) {
+        if (stop.name == name && !stop.done) {
+          setState(() => stop.done = true);
+        }
+      }
+    }
+  }
+}
   void _renumber() {
     for (int i = 0; i < _stops.length; i++) {
       _stops[i].number = i + 1;
     }
   }
 
-  /* ── TOGGLE done ── */
    void _toggleDone(QuestStop stop) {
     setState(() => stop.done = !stop.done);
     _syncActiveStores();
@@ -156,7 +135,6 @@ class _QuestPageState extends State<QuestPage>
     widget.onActiveStoresChanged?.call(activeNames);
   }
 
-  /* ── REMOVE stop ── */
   void _removeStop(QuestStop stop) {
     showDialog(
       context: context,
@@ -177,7 +155,6 @@ class _QuestPageState extends State<QuestPage>
     );
   }
 
-  /* ── ADD destination picker ── */
   void _showAddDestination() {
     showModalBottomSheet(
       context: context,
@@ -265,24 +242,16 @@ void _confirmGoToStore(QuestStop stop) {
   );
 }
 
-  /* ══════════════════════════════════════════════════════════════
-     BUILD
-  ══════════════════════════════════════════════════════════════ */
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return Scaffold(
       backgroundColor: kBg,
       body: SafeArea(
         child: CustomScrollView(
           physics: const ClampingScrollPhysics(),
           slivers: [
-            /* ── Header ── */
             SliverToBoxAdapter(child: _buildHeader()),
-
-            /* ── Progress Card ── */
             SliverToBoxAdapter(child: _buildProgressCard()),
-
-            /* ── Section label: Quest Stops ── */
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 22, 20, 8),
@@ -314,7 +283,6 @@ void _confirmGoToStore(QuestStop stop) {
                       ),
                     ),
                     const Spacer(),
-                    /* Add destination button */
                     GestureDetector(
                       onTap: _showAddDestination,
                       child: Container(
@@ -351,8 +319,6 @@ void _confirmGoToStore(QuestStop stop) {
                 ),
               ),
             ),
-
-            /* ── Quest Stop Rows (mutable) ── */
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (_, i) => Padding(
@@ -367,8 +333,6 @@ void _confirmGoToStore(QuestStop stop) {
                 childCount: _stops.length,
               ),
             ),
-
-            /* ── Continue Quest / Go to Map button ── */
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 30),
@@ -413,7 +377,6 @@ void _confirmGoToStore(QuestStop stop) {
     );
   }
 
-  /* ── Header ── */
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -460,8 +423,6 @@ void _confirmGoToStore(QuestStop stop) {
       ),
     );
   }
-
-  /* ── Progress Card ── */
   Widget _buildProgressCard() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
@@ -562,10 +523,6 @@ void _confirmGoToStore(QuestStop stop) {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   QUEST STOP CARD  (mutable: toggle done, remove, navigate)
-═══════════════════════════════════════════════════════════════ */
-
 class _QuestStopCard extends StatelessWidget {
   final QuestStop stop;
   final VoidCallback onToggleDone;
@@ -604,7 +561,6 @@ class _QuestStopCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          /* Number / done indicator — tap to toggle */
           GestureDetector(
             onTap: onToggleDone,
             child: AnimatedContainer(
@@ -634,7 +590,6 @@ class _QuestStopCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
 
-          /* Name + floor */
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -659,9 +614,7 @@ class _QuestStopCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          /* Action buttons */
           if (!stop.done) ...[
-            /* Navigate */
             _ActionBtn(
               label: 'Go',
               icon: Icons.near_me_rounded,
@@ -671,7 +624,6 @@ class _QuestStopCard extends StatelessWidget {
             const SizedBox(width: 6),
           ],
 
-          /* Mark done / undo */
           _ActionBtn(
             label: stop.done ? 'Undo' : 'Done',
             icon: stop.done
@@ -682,7 +634,6 @@ class _QuestStopCard extends StatelessWidget {
           ),
           const SizedBox(width: 6),
 
-          /* Remove */
           GestureDetector(
             onTap: onRemove,
             child: Container(
@@ -748,14 +699,6 @@ class _ActionBtn extends StatelessWidget {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   MINI MAP MARKER  (only for remaining / pending stops)
-═══════════════════════════════════════════════════════════════ */
-
-/* ═══════════════════════════════════════════════════════════════
-   ADD DESTINATION BOTTOM SHEET
-═══════════════════════════════════════════════════════════════ */
-
 class _AddDestinationSheet extends StatelessWidget {
   final List<String> existingNames;
   final void Function(_MallDestination) onSelect;
@@ -789,7 +732,6 @@ class _AddDestinationSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          /* Handle */
           Container(
             width: 36,
             height: 4,
@@ -799,7 +741,6 @@ class _AddDestinationSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          /* Title row */
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 14, 20, 4),
             child: Row(
@@ -835,7 +776,6 @@ class _AddDestinationSheet extends StatelessWidget {
               style: TextStyle(fontSize: 12, color: kMid),
             ),
           ),
-          /* Store list */
           ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height * 0.42,
@@ -913,10 +853,6 @@ class _AddDestinationSheet extends StatelessWidget {
     );
   }
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   REUSABLE MALLIE DIALOG
-═══════════════════════════════════════════════════════════════ */
 
 class _MallieDialog extends StatelessWidget {
   final IconData icon;

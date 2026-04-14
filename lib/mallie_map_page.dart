@@ -9,10 +9,6 @@ const kMid = Color(0xFF6B7A99);
 const kLight = Color(0xFFB0BAD3);
 const kGreen = Color(0xFF55C08A);
 
-/* ═══════════════════════════════════════════════════════════════
-   QUEST STORE MODEL
-═══════════════════════════════════════════════════════════════ */
-
 class QuestStore {
   final String name;
   final String category;
@@ -144,10 +140,6 @@ const questStores = <QuestStore>[
   ),
 ];
 
-/* ═══════════════════════════════════════════════════════════════
-   MAP DATA MODELS
-═══════════════════════════════════════════════════════════════ */
-
 class _Room {
   final Rect rect;
   final String zone;
@@ -173,10 +165,6 @@ class _Marker {
 const _kMapW = 360.0;
 const _kMapH = 520.0;
 const _kRoomRadius = 14.0;
-
-/* ═══════════════════════════════════════════════════════════════
-   FLOOR DATA
-═══════════════════════════════════════════════════════════════ */
 
 // ── B1 ──
 const _b1Rooms = <_Room>[
@@ -291,10 +279,6 @@ const _3fMarkers = <_Marker>[
   _Marker(Offset(52, 503), Icons.wc, 'WC', kMid),
 ];
 
-/* ═══════════════════════════════════════════════════════════════
-   FLOOR LOOKUP MAPS
-═══════════════════════════════════════════════════════════════ */
-
 const _mapFloors = ['B1', '1F', '2F', '3F'];
 
 final _floorRooms = <String, List<_Room>>{
@@ -317,10 +301,6 @@ final _floorMarkers = <String, List<_Marker>>{
   '2F': _2fMarkers,
   '3F': _3fMarkers,
 };
-
-/* ═══════════════════════════════════════════════════════════════
-   STORE ROUTES
-═══════════════════════════════════════════════════════════════ */
 
 const _storeRoutes = <String, List<Offset>>{
   "McDonald's": [
@@ -405,10 +385,6 @@ const _storeRoutes = <String, List<Offset>>{
   ],
 };
 
-/* ═══════════════════════════════════════════════════════════════
-   MAP PAGE
-═══════════════════════════════════════════════════════════════ */
-
 class MapPage extends StatefulWidget {
   final List<String> activeQuestStores;
   final void Function(String storeName) onQuestStart;
@@ -433,7 +409,6 @@ class _MapPageState extends State<MapPage> {
   @override
   void didUpdateWidget(MapPage old) {
     super.didUpdateWidget(old);
-    // Auto-switch floor to the first active quest store's floor
     if (widget.activeQuestStores != old.activeQuestStores &&
         widget.activeQuestStores.isNotEmpty) {
       try {
@@ -741,13 +716,9 @@ void _confirmDone(BuildContext context, QuestStore store) {
               ),
             ),
             onPressed: () {
-              // 1. Close the dialog
               Navigator.pop(ctx);
-
-              // 2. Remove from active quests/map markers
               widget.onQuestCancel?.call(store.name);
-
-              // 3. Provide feedback since we aren't switching screens anymore
+              widget.onQuestDone?.call(store.name);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('"${store.name}" completed!'),
@@ -755,10 +726,6 @@ void _confirmDone(BuildContext context, QuestStore store) {
                   backgroundColor: kGreen,
                 ),
               );
-
-              /* NOTE: widget.onQuestDone?.call(store.name) was removed 
-                to prevent the redirect to the Quest Log screen.
-              */
             },
             child: const Text(
               'Done!',
@@ -773,10 +740,6 @@ void _confirmDone(BuildContext context, QuestStore store) {
     );
   }
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   2D MALL MAP
-═══════════════════════════════════════════════════════════════ */
 
 class _Mall2DMap extends StatefulWidget {
   final String floorCode;
@@ -799,7 +762,6 @@ class _Mall2DMapState extends State<_Mall2DMap>
   late final AnimationController _routeCtrl;
   late final Animation<double> _routeProgress;
 
-  // Returns routes for all active stores on the current floor
   List<List<Offset>> get _activeRoutes {
     return widget.activeStoreNames
         .where((name) {
@@ -951,7 +913,6 @@ class _Mall2DMapState extends State<_Mall2DMap>
                 ),
               ),
             ),
-            // Floor label
             Positioned(
               left: 14,
               bottom: 14,
@@ -975,7 +936,6 @@ class _Mall2DMapState extends State<_Mall2DMap>
                 ),
               ),
             ),
-            // Hint
             Positioned(
               right: 14,
               bottom: 14,
@@ -1027,10 +987,6 @@ class _Mall2DMapState extends State<_Mall2DMap>
     );
   }
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   ROUTE PAINTER
-═══════════════════════════════════════════════════════════════ */
 
 class _RoutePainter extends CustomPainter {
   final List<Offset> waypoints;
@@ -1119,10 +1075,6 @@ class _RoutePainter extends CustomPainter {
       old.progress != progress || old.waypoints != waypoints;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   YOU ARE HERE DOT
-═══════════════════════════════════════════════════════════════ */
-
 class _YouAreHereDot extends StatefulWidget {
   const _YouAreHereDot();
 
@@ -1193,10 +1145,6 @@ class _YouAreHerePainter extends CustomPainter {
   bool shouldRepaint(_YouAreHerePainter old) => old.pulse != pulse;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ROOM PAINTER
-═══════════════════════════════════════════════════════════════ */
-
 class _RoomPainter extends CustomPainter {
   final List<_Room> rooms;
   const _RoomPainter(this.rooms);
@@ -1248,10 +1196,6 @@ class _RoomPainter extends CustomPainter {
   bool shouldRepaint(_RoomPainter old) => old.rooms != rooms;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   BORDER PAINTER
-═══════════════════════════════════════════════════════════════ */
-
 class _BorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1270,10 +1214,6 @@ class _BorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(_BorderPainter old) => false;
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   STORE PIN 2D
-═══════════════════════════════════════════════════════════════ */
 
 class _StorePin2D extends StatefulWidget {
   final QuestStore store;
@@ -1383,10 +1323,6 @@ class _StorePin2DState extends State<_StorePin2D>
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   COMPASS WIDGET
-═══════════════════════════════════════════════════════════════ */
-
 class _CompassWidget extends StatelessWidget {
   const _CompassWidget();
 
@@ -1438,10 +1374,6 @@ class _CompassPainter extends CustomPainter {
   @override
   bool shouldRepaint(_CompassPainter old) => false;
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   QUEST ROW
-═══════════════════════════════════════════════════════════════ */
 
 class _QuestRow extends StatelessWidget {
   final QuestStore store;
@@ -1509,7 +1441,6 @@ class _QuestRow extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Done button
                 GestureDetector(
                   onTap: onDone,
                   child: Container(
@@ -1532,7 +1463,6 @@ class _QuestRow extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6),
-                // Cancel button
                 GestureDetector(
                   onTap: onCancel,
                   child: Container(
