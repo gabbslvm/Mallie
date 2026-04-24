@@ -90,7 +90,7 @@ Mallie/
 │   ├── mallie_quest_page.dart         #   Quest / rewards feature
 │   ├── mallie_wallet_page.dart        #   Wallet / payment screen
 │   ├── mallie_profile_page.dart       #   User profile & settings
-│   └── preferences_page.dart          #   Detailed preferences controls
+│   └── preferences_page.dart          #   preferences screen
 │
 ├── pubspec.yaml                       #   Dependencies & asset declarations
 ├── pubspec.lock                       #   Locked dependency versions
